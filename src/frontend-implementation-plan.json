@@ -1,99 +1,20 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Valentine prompt single-page UI with evasive No and celebratory meme",
+  "title": "Restore Sunidhi name in Valentine prompt copy",
   "requirements": [
     {
-      "id": "REQ-1",
-      "summary": "Render a single-page Valentine prompt asking “Will you be my Valentine, Sunidhi?” with exactly two buttons: Yes and No.",
+      "id": "REQ-9",
+      "summary": "Update the main Valentine prompt heading to ask Sunidhi by name using the exact required English sentence, ensuring the prior name is removed from the UI.",
       "acceptanceCriteria": [
-        "Page contains one primary prompt: \"Will you be my Valentine, Sunidhi?\" (English text).",
-        "Exactly two visible buttons are present: \"Yes\" and \"No\".",
-        "No additional app flows/pages/features beyond this interaction."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "create",
-          "description": "Create the single-screen App that renders the Valentine prompt interaction (no routing)."
-        },
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "create",
-          "description": "Implement the prompt UI with exactly two actions (Yes/No). Use shadcn-ui components (e.g., Button/Card) to provide consistent structure and button styling. Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Make the No button evasive on hover and touch so it repositions within the viewport/container without overlapping the Yes button.",
-      "acceptanceCriteria": [
-        "On desktop: moving the cursor onto/over the \"No\" button causes it to reposition immediately.",
-        "On touch devices (iPad/Chrome): attempting to tap/press the \"No\" button triggers repositioning (e.g., on pointerdown/touchstart) before a click can register.",
-        "The \"No\" button never becomes unclickably off-screen; it remains fully visible after each move.",
-        "The \"No\" button does not cover or overlap the \"Yes\" button after repositioning."
+        "The prompt heading text renders exactly as: \"Will you be my Valentine, Sunidhi?\"",
+        "The name \"Mahek\" does not appear anywhere in the UI"
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/ValentinePrompt.tsx",
           "operation": "modify",
-          "description": "Add evasive positioning logic for the No button using measured container/button bounds: on mouse enter and on pointer/touch start, compute a new on-screen position that stays fully within the visible container/viewport and does not overlap the Yes button."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "On Yes click/tap, transition to a celebratory result view showing the meme image with the text “Good choice❤❤❤”.",
-      "acceptanceCriteria": [
-        "Clicking/tapping \"Yes\" shows a meme image with the exact text \"Good choice❤❤❤\" visible on the image.",
-        "After clicking \"Yes\", the user is no longer presented with both \"Yes\" and \"No\" choices (the UI transitions to the result state)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "modify",
-          "description": "Add component state to swap from the decision UI (prompt + two buttons) to a result view when Yes is clicked/tapped, rendering the required meme image as the primary content."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Apply a cohesive romantic pink/white theme with a clean responsive layout optimized for iPad Chrome.",
-      "acceptanceCriteria": [
-        "Overall styling is pink/white romantic-themed (background, buttons, typography) and visually consistent.",
-        "Layout is responsive and remains readable and usable on iPad-sized viewports in Chrome (no clipped prompt/buttons).",
-        "Animations/transitions (if any) remain smooth and do not block interaction."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/index.css",
-          "operation": "create",
-          "description": "Create global styles to establish the romantic pink/white theme (background, typography, and sensible defaults) while remaining compatible with the existing Tailwind setup."
-        },
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "modify",
-          "description": "Apply responsive layout classes and spacing for iPad-sized viewports (centered content, readable prompt sizing, comfortable button sizes, and non-blocking transitions). Use shadcn-ui components where helpful for consistent visual hierarchy. Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Add the required generated meme image as a static frontend asset and render it directly without backend calls.",
-      "acceptanceCriteria": [
-        "A generated image file exists under frontend/public/assets/generated with the specified filename.",
-        "The \"Yes\" result view loads and displays the image via a static path from the frontend build (no backend calls required)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png",
-          "operation": "create",
-          "description": "Add the generated static meme image asset file (valentine-good-choice-meme.dim_1200x800.png) under the required generated assets directory."
-        },
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "modify",
-          "description": "Reference and render the static image from frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png in the Yes result view (no backend capability and no runtime image generation)."
+          "description": "Replace the CardTitle prompt copy text with exactly: \"Will you be my Valentine, Sunidhi?\" and ensure no other occurrences of \"Mahek\" remain in this UI. Preserve existing Yes/No interaction behavior and do not modify any files under frontend/src/components/ui."
         }
       ]
     }

@@ -82,10 +82,7 @@ export default function ValentinePrompt() {
       <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-700">
         <div className="text-center space-y-4">
           <h1 className="text-5xl md:text-7xl font-bold text-romantic-primary animate-in zoom-in duration-500">
-            Good choice
-            <Heart className="inline-block ml-3 fill-romantic-accent text-romantic-accent animate-pulse" size={48} />
-            <Heart className="inline-block ml-1 fill-romantic-accent text-romantic-accent animate-pulse delay-100" size={48} />
-            <Heart className="inline-block ml-1 fill-romantic-accent text-romantic-accent animate-pulse delay-200" size={48} />
+            Good choice❤❤❤
           </h1>
         </div>
         <Card className="max-w-4xl w-full overflow-hidden shadow-2xl border-romantic-primary/20 bg-white/95 backdrop-blur">
@@ -125,7 +122,7 @@ export default function ValentinePrompt() {
               size="lg"
               className="text-2xl px-12 py-8 h-auto font-bold bg-romantic-primary hover:bg-romantic-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
-              Yes! 💕
+              Yes
             </Button>
             <Button
               ref={noButtonRef}

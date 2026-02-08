@@ -1,15 +1,15 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 3,
+  "projectStateVersion": 7,
   "summary": "Interactive romantic-themed Valentine web page (HTML/CSS/JS) to ask Sunidhi to be the user's Valentine, with Yes/No buttons where No evasively moves on hover and Yes reveals a \"Good choice❤❤❤\" meme image; designed to run on iPad Chrome.",
   "architectural_notes": [
     "Implement as a self-contained HTML/CSS/JS page optimized for iPad Chrome.",
     "UI behavior: 'No' button moves away on hover to prevent clicking; 'Yes' triggers display of a meme image with text \"Good choice❤❤❤\".",
-    "Use a pink/white romantic color scheme and simple single-purpose layout."
+    "Use a pink/white romantic color scheme and simple single-purpose layout.",
+    "Copy/text update: ask \"Will you be my Valentine Sunidhi🌸?\" (replace prior name/text)."
   ],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Meme-style image with bold readable caption text \"Good choice❤❤❤\", romantic pink/white aesthetic, simple comedic layout (valentine-good-choice-meme.dim_1200x800.png)",
   "existing_features": [
     {
       "id": "feature-create-a-single-page-romantic-valentine-prompt-that-asks-will-you-be-my-valentine-sunidhi-and-presents-exactly-two-options-yes-and-no",
@@ -50,18 +50,50 @@
         "REQ-5"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-valentine-question-text-to-address-mahek-by-name-asking-in-english-will-you-be-my-valentine-mahek",
+      "title": "Update the Valentine question text to address Mahek by name, asking in English: \"Will you be my Valentine, Mahek?\"",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-decision-ui-presents-exactly-two-options-labeled-yes-and-no-no-additional-words-or-emojis-in-the-button-labels",
+      "title": "Ensure the decision UI presents exactly two options labeled \"Yes\" and \"No\" (no additional words or emojis in the button labels).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-the-user-clicks-taps-yes-display-celebratory-text-that-includes-the-exact-phrase-good-choice-and-show-the-existing-meme-image-from-the-frontend-static-assets",
+      "title": "When the user clicks/taps \"Yes\", display celebratory text that includes the exact phrase \"Good choice❤❤❤\" and show the existing meme image from the frontend static assets.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-valentine-question-copy-in-the-main-prompt-ui-to-ask-sunidhi-by-name-in-english-using-exactly-will-you-be-my-valentine-sunidhi",
+      "title": "Update the Valentine question copy in the main prompt UI to ask Sunidhi by name in English using exactly: \"Will you be my Valentine, Sunidhi?\"",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
     {
-      "id": "AR-1",
+      "id": "AR-3",
       "summary": "Build a single-purpose interactive Valentine proposal webpage for Sunidhi with evasive 'No' button and 'Yes' click showing a 'Good choice❤❤❤' meme image; pink/white romantic theme; runnable on iPad Chrome.",
       "reqIds": [],
       "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "Romantic Valentine prompt page with evasive No button and celebratory meme",
+  "projectName": "Romantic Valentine prompt page for Mahek with evasive No button and celebratory meme",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

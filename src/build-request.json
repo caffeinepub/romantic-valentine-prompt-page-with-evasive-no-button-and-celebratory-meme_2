@@ -1,123 +1,39 @@
 {
   "kind": "build_request",
-  "title": "Romantic Valentine prompt page with evasive No button and celebratory meme",
+  "title": "Update Valentine prompt copy to ask Sunidhi (restore Sunidhi name)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Create a single-page romantic Valentine prompt that asks: \"Will you be my Valentine, Sunidhi?\" and presents exactly two options: \"Yes\" and \"No\".",
+      "id": "REQ-9",
+      "text": "Update the Valentine question copy in the main prompt UI to ask Sunidhi by name in English using exactly: \"Will you be my Valentine, Sunidhi?\"",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-4"
         ],
         "quotes": [
-          "Create an interactive web page as a surprise for my girlfriend Sunidhi... to ask her to be my Valentine Sunidhi. There should be two options: Yes or No."
+          "Create an interactive web page as a surprise for my girlfriend Sunidhi... to ask her to be my Valentine Sunidhi🌸."
         ]
       },
       "acceptanceCriteria": [
-        "Page contains one primary prompt: \"Will you be my Valentine, Sunidhi?\" (English text).",
-        "Exactly two visible buttons are present: \"Yes\" and \"No\".",
-        "No additional app flows/pages/features beyond this interaction."
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Implement evasive behavior for the \"No\" button so it cannot be clicked: when the user hovers over or otherwise points at \"No\", it moves to a new position within the visible viewport, staying fully on-screen and not overlapping the \"Yes\" button.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "When she hovers her cursor over No, it should move away so she cannot click it, forcing her to click only on Yes."
-        ]
-      },
-      "acceptanceCriteria": [
-        "On desktop: moving the cursor onto/over the \"No\" button causes it to reposition immediately.",
-        "On touch devices (iPad/Chrome): attempting to tap/press the \"No\" button triggers repositioning (e.g., on pointerdown/touchstart) before a click can register.",
-        "The \"No\" button never becomes unclickably off-screen; it remains fully visible after each move.",
-        "The \"No\" button does not cover or overlap the \"Yes\" button after repositioning."
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "When the user clicks/taps \"Yes\", replace the decision UI with a celebratory view that shows a meme image containing the text \"Good choice❤❤❤\".",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "When she clicks Yes, show her a meme image telling her \"Good choice❤❤❤\"."
-        ]
-      },
-      "acceptanceCriteria": [
-        "Clicking/tapping \"Yes\" shows a meme image with the exact text \"Good choice❤❤❤\" visible on the image.",
-        "After clicking \"Yes\", the user is no longer presented with both \"Yes\" and \"No\" choices (the UI transitions to the result state)."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Apply a cohesive romantic visual theme using a pink and white color scheme, with simple, clean layout and responsive sizing optimized for iPad Chrome.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "The page should be themed romantically with a pink and white color scheme... easily run it on my iPad using Chrome."
-        ]
-      },
-      "acceptanceCriteria": [
-        "Overall styling is pink/white romantic-themed (background, buttons, typography) and visually consistent.",
-        "Layout is responsive and remains readable and usable on iPad-sized viewports in Chrome (no clipped prompt/buttons).",
-        "Animations/transitions (if any) remain smooth and do not block interaction."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Add the required generated meme image to the frontend as a static asset under frontend/public/assets/generated and render it directly from the frontend (no backend serving or dynamic image generation at runtime).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "show her a meme image telling her \"Good choice❤❤❤\"."
-        ]
-      },
-      "acceptanceCriteria": [
-        "A generated image file exists under frontend/public/assets/generated with the specified filename.",
-        "The \"Yes\" result view loads and displays the image via a static path from the frontend build (no backend calls required)."
+        "The prompt heading text renders exactly as: \"Will you be my Valentine, Sunidhi?\"",
+        "The name \"Mahek\" does not appear anywhere in the UI"
       ]
     }
   ],
   "constraints": [
-    "Use English for all user-facing text.",
-    "Do not edit files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything under frontend/src/components/ui (compose them instead).",
-    "Do not introduce any third-party authentication providers; Internet Identity only (even though it is not required for this page).",
-    "Keep the backend as a single Motoko actor; no additional backend services."
+    "Do not change any of the existing Yes/No interaction behavior (\"No\" must remain evasive on hover/pointer/touch; \"Yes\" must reveal the celebratory view).",
+    "Do not modify any files under frontend/src/components/ui (read-only).",
+    "Do not add any backend requirements; backend/main.mo should remain unused for this feature."
   ],
   "nonGoals": [
-    "User accounts, authentication, or saving state on-chain.",
-    "Multiple pages, routing, or additional interactive mini-games.",
-    "Real-time features (websockets/chat), external APIs, or third-party integrations."
+    "Add additional buttons or choices beyond \"Yes\" and \"No\".",
+    "Change the \"Yes\" button label or add emojis/extra words to the \"Yes\"/\"No\" button labels.",
+    "Introduce login/authentication, persistence, or any Internet Identity flows for this page.",
+    "Generate new meme images or change the existing meme asset path unless explicitly requested."
   ],
   "imageRequirements": {
-    "required": [
-      "Meme-style image with bold readable caption text \"Good choice❤❤❤\", romantic pink/white aesthetic, simple comedic layout (valentine-good-choice-meme.dim_1200x800.png)"
-    ],
+    "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

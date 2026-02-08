@@ -1,12 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Build a single-page romantic Valentine prompt asking “Will you be my Valentine, Sunidhi?” with two choices, where “No” evades interaction and “Yes” shows a celebratory meme.
+**Goal:** Update the main Valentine prompt heading to ask Sunidhi by name with the exact requested English copy.
 
 **Planned changes:**
-- Create a responsive, pink/white themed single-page UI with the prompt text and exactly two buttons: “Yes” and “No”.
-- Implement evasive positioning for the “No” button on hover (desktop) and on touch/pointer interaction (iPad Chrome), keeping it fully on-screen and not overlapping “Yes”.
-- On “Yes” click/tap, replace the choice UI with a result view that displays a static meme image containing the text “Good choice❤❤❤”.
-- Add the generated meme image asset under `frontend/public/assets/generated` and render it via a static frontend path.
+- Change the prompt heading text to render exactly: "Will you be my Valentine, Sunidhi?"
+- Ensure the name "Mahek" does not appear anywhere in the UI copy.
 
-**User-visible outcome:** The user sees the Valentine prompt with “Yes” and an unclickable “No” that moves away; choosing “Yes” transitions to a celebratory meme image reading “Good choice❤❤❤”.
+**User-visible outcome:** The page displays the Valentine question addressed to Sunidhi, while the existing Yes/No interactions behave exactly as before.
