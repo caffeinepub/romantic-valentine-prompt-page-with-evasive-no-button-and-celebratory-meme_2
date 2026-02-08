@@ -1,0 +1,97 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-single-page-romantic-valentine-prompt-that-asks-will-you-be-my-valentine-sunidhi-and-presents-exactly-two-options-yes-and-no",
+      "featureTitle": "Create a single-page romantic Valentine prompt that asks: \"Will you be my Valentine, Sunidhi?\" and presents exactly two options: \"Yes\" and \"No\".",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-evasive-behavior-for-the-no-button-so-it-cannot-be-clicked-when-the-user-hovers-over-or-otherwise-points-at-no-it-moves-to-a-new-position-within-the-visible-viewport-staying-fully-on-screen-and-not-overlapping-the-yes-button",
+      "featureTitle": "Implement evasive behavior for the \"No\" button so it cannot be clicked: when the user hovers over or otherwise points at \"No\", it moves to a new position within the visible viewport, staying fully on-screen and not overlapping the \"Yes\" button.",
+      "files": [
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-when-the-user-clicks-taps-yes-replace-the-decision-ui-with-a-celebratory-view-that-shows-a-meme-image-containing-the-text-good-choice",
+      "featureTitle": "When the user clicks/taps \"Yes\", replace the decision UI with a celebratory view that shows a meme image containing the text \"Good choice❤❤❤\".",
+      "files": [
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-cohesive-romantic-visual-theme-using-a-pink-and-white-color-scheme-with-simple-clean-layout-and-responsive-sizing-optimized-for-ipad-chrome",
+      "featureTitle": "Apply a cohesive romantic visual theme using a pink and white color scheme, with simple, clean layout and responsive sizing optimized for iPad Chrome.",
+      "files": [
+        "frontend/src/components/ValentinePrompt.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-the-required-generated-meme-image-to-the-frontend-as-a-static-asset-under-frontend-public-assets-generated-and-render-it-directly-from-the-frontend-no-backend-serving-or-dynamic-image-generation-at-runtime",
+      "featureTitle": "Add the required generated meme image to the frontend as a static asset under frontend/public/assets/generated and render it directly from the frontend (no backend serving or dynamic image generation at runtime).",
+      "files": [
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

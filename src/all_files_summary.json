@@ -1,0 +1,15 @@
+{
+  "backend/main.mo": "Empty Motoko actor with no backend logic.",
+  "feature_evidence.json": "Feature evidence metadata describing implemented Valentine prompt UI, evasive No button, celebratory meme, and theme.",
+  "frontend-file-summaries.txt": "High‑level descriptions of key frontend components and theme configuration.",
+  "frontend/index.css": "Tailwind base theme with OKLCH variables for UI styling and dark mode support.",
+  "frontend/index.html": "Root HTML page loading the React app via main.tsx.",
+  "frontend/src/App.tsx": "Minimal wrapper rendering ValentinePrompt centered in the viewport.",
+  "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine prompt with evasive No button logic, Yes‑click celebration state, and meme display.",
+  "frontend/src/hooks/useActor.ts": "React hook creating and refreshing a backend actor instance tied to Internet Identity state.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Context and provider managing Internet Identity login, stored identities, and auth client lifecycle.",
+  "frontend/src/index.css": "Frontend’s romantic pink‑white theme with OKLCH variables, gradients, and custom utility classes.",
+  "frontend/src/main.tsx": "App bootstrap setting up React, InternetIdentityProvider, react‑query, and global styles.",
+  "frontend/tailwind.config.js": "Tailwind CSS configuration defining dark mode, content paths, extended color system using OKLCH variables, custom animations, and plugins like typography and container queries.",
+  "project_state.json": "Project metadata describing an interactive Valentine webpage with an evasive No button, a Yes-triggered meme image, and a pink/white romantic theme for iPad Chrome."
+}

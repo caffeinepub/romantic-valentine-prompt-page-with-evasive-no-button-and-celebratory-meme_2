@@ -1,0 +1,6 @@
+{
+  "frontend/src/App.tsx": "Main application component that renders the ValentinePrompt component centered on the screen with full viewport height.",
+  "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine's Day proposal component with evasive \"No\" button that repositions on hover/touch and celebratory meme reveal on \"Yes\" click, featuring collision detection to prevent button overlap and separate handlers for pointer and touch events.",
+  "frontend/src/index.css": "Global styles with romantic pink and white OKLCH color theme, custom romantic color utilities, and gradient background optimized for Valentine's Day aesthetic.",
+  "frontend/tailwind.config.js": "Tailwind configuration extended with romantic-themed custom colors (romantic-primary, romantic-accent, romantic-muted) and increased border radius for softer appearance."
+}
