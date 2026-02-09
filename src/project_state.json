@@ -1,75 +1,48 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Interactive romantic Valentine web page (pink/white theme) that asks Sunidhi to be the user's Valentine with Yes/No buttons; No evasively moves away and clicking Yes shows a 'Good choice' meme image; must run in Chrome on iPad.",
-  "architectural_notes": [
-    "Target platform: single-page HTML/CSS/JS experience intended to run locally/in Chrome on iPad.",
-    "UI behavior requirement: two options (Yes/No) with No button evasive (moves away) and Yes triggers displaying a meme image with text 'Good choice❤❤❤'.",
-    "Visual requirement: romantic pink/white color scheme."
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "Deployed site URL is incorrectly showing 'mahek' in the URL (unexpected slug/route/base path)."
   ],
-  "known_issues": [],
   "isFixRequest": true,
-  "imageRequirements": "## Required Images\n- Meme-style romantic image with the words “Good choice❤❤❤” (valentine-good-choice-meme.dim_1200x800.png)",
   "existing_features": [
     {
-      "id": "feature-create-a-single-page-romantic-valentine-prompt-that-asks-will-you-be-my-valentine-sunidhi-and-presents-exactly-two-options-labeled-yes-and-no-with-no-other-user-facing-actions-or-calls-to-action",
-      "title": "Create a single-page romantic Valentine prompt that asks: “Will you be my Valentine Sunidhi🌸” and presents exactly two options labeled “Yes” and “No”, with no other user-facing actions or calls-to-action.",
+      "id": "feature-add-a-single-source-of-truth-for-the-intended-public-url-the-user-facing-share-url-and-ensure-it-is-used-consistently-across-the-app-so-the-user-can-share-a-link-that-does-not-include-the-old-mahek-slug",
+      "title": "Add a single source of truth for the intended public URL (the user-facing share URL) and ensure it is used consistently across the app so the user can share a link that does not include the old 'mahek' slug.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-make-the-no-option-effectively-unclickable-by-moving-it-away-when-the-user-attempts-to-interact-with-it-hover-on-desktop-touch-pointer-interactions-on-ipad-chrome-keeping-movement-smooth-and-constrained-within-the-prompt-area-so-it-stays-visible",
-      "title": "Make the “No” option effectively unclickable by moving it away when the user attempts to interact with it (hover on desktop; touch/pointer interactions on iPad Chrome), keeping movement smooth and constrained within the prompt area so it stays visible.",
+      "id": "feature-add-an-in-app-user-visible-copy-link-control-that-copies-the-intended-public-url-not-window-location-if-it-includes-an-old-slug-so-the-user-can-reliably-share-the-correct-link",
+      "title": "Add an in-app, user-visible 'Copy link' control that copies the intended public URL (not `window.location` if it includes an old slug) so the user can reliably share the correct link.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-when-the-user-clicks-yes-replace-the-prompt-with-a-success-view-that-displays-the-exact-text-good-choice-and-shows-a-meme-image",
-      "title": "When the user clicks “Yes”, replace the prompt with a success view that displays the exact text “Good choice❤❤❤” and shows a meme image.",
+      "id": "feature-implement-minimal-runtime-metadata-synchronization-to-ensure-the-document-title-canonical-url-and-open-graph-og-url-match-the-configured-public-url-at-runtime-to-reduce-stale-cached-metadata-issues",
+      "title": "Implement minimal runtime metadata synchronization to ensure the document title, canonical URL, and Open Graph `og:url` match the configured public URL at runtime (to reduce stale/cached metadata issues).",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-apply-a-simple-romantic-theme-using-a-pink-and-white-color-scheme-and-ensure-the-layout-is-responsive-and-touch-friendly-for-ipad-chrome-readable-typography-large-tap-targets-no-horizontal-overflow",
-      "title": "Apply a simple romantic theme using a pink and white color scheme and ensure the layout is responsive and touch-friendly for iPad Chrome (readable typography, large tap targets, no horizontal overflow).",
+      "id": "feature-add-a-guardrail-check-to-prevent-reintroducing-the-wrong-name-slug-by-ensuring-the-string-mahek-does-not-appear-anywhere-in-frontend-source-files-excluding-any-developer-provided-screenshots-or-unrelated-binary-assets",
+      "title": "Add a guardrail check to prevent reintroducing the wrong name/slug by ensuring the string `mahek` does not appear anywhere in frontend source files (excluding any developer-provided screenshots or unrelated binary assets).",
       "reqIds": [
         "REQ-4"
       ],
       "version": 1
-    },
-    {
-      "id": "feature-keep-the-experience-fully-frontend-only-static-interactive-page-behavior-with-no-backend-dependency-the-motoko-backend-actor-must-remain-unused",
-      "title": "Keep the experience fully frontend-only (static interactive page behavior) with no backend dependency; the Motoko backend actor must remain unused.",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-the-required-generated-meme-image-as-a-static-asset-and-render-it-from-the-frontend-do-not-fetch-it-via-the-backend",
-      "title": "Add the required generated meme image as a static asset and render it from the frontend (do not fetch it via the backend).",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Create a simple romantic-themed interactive Valentine webpage for Sunidhi with Yes/No where No moves away on hover and Yes shows a 'Good choice❤❤❤' meme image; runnable on iPad Chrome using HTML/CSS/JS",
-      "reqIds": [],
-      "status": "pending"
-    }
-  ],
-  "gameProjectType": "none",
-  "projectName": "Rebuild romantic Valentine surprise page for Sunidhi with evasive No button and meme reveal",
+  "new_feature_requests": [],
+  "projectName": "Fix shared URL showing old 'mahek' slug by adding canonical share link and removing legacy references",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

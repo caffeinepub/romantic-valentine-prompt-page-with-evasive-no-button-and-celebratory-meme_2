@@ -1,91 +1,68 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T14:14:22.338Z",
+  "generatedAt": "2026-02-09T16:12:31.701Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 6,
-    "implemented": 6,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Create a single-page romantic Valentine prompt that asks: “Will you be my Valentine Sunidhi🌸” and presents exactly two options labeled “Yes” and “No”, with no other user-facing actions or calls-to-action.",
+        "summary": "Add a single source of truth for the intended public URL (the user-facing share URL) and ensure it is used consistently across the app so the user can share a link that does not include the old 'mahek' slug.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/config/branding.ts",
-          "frontend/src/components/ValentinePrompt.tsx",
+          "frontend/src/config/publicSiteUrl.ts",
+          "frontend/src/utils/appMetadata.ts",
           "frontend/index.html"
         ],
         "matchedFiles": [
-          "frontend/src/config/branding.ts",
-          "frontend/src/components/ValentinePrompt.tsx",
-          "frontend/index.html"
+          "frontend/src/config/publicSiteUrl.ts",
+          "frontend/src/utils/appMetadata.ts"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Make the “No” option effectively unclickable by moving it away when the user attempts to interact with it (hover on desktop; touch/pointer interactions on iPad Chrome), keeping movement smooth and constrained within the prompt area so it stays visible.",
+        "summary": "Add an in-app, user-visible 'Copy link' control that copies the intended public URL (not `window.location` if it includes an old slug) so the user can reliably share the correct link.",
         "status": "implemented",
         "plannedFiles": [
+          "frontend/src/components/CopyShareLinkControl.tsx",
           "frontend/src/components/ValentinePrompt.tsx"
         ],
         "matchedFiles": [
+          "frontend/src/components/CopyShareLinkControl.tsx",
           "frontend/src/components/ValentinePrompt.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "When the user clicks “Yes”, replace the prompt with a success view that displays the exact text “Good choice❤❤❤” and shows a meme image.",
+        "summary": "Implement minimal runtime metadata synchronization to ensure the document title, canonical URL, and Open Graph `og:url` match the configured public URL at runtime (to reduce stale/cached metadata issues).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/config/branding.ts",
-          "frontend/src/components/ValentinePrompt.tsx"
+          "frontend/src/utils/appMetadata.ts",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/config/branding.ts",
-          "frontend/src/components/ValentinePrompt.tsx"
+          "frontend/src/utils/appMetadata.ts",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-4",
-        "summary": "Apply a simple romantic theme using a pink and white color scheme and ensure the layout is responsive and touch-friendly for iPad Chrome (readable typography, large tap targets, no horizontal overflow).",
+        "summary": "Add a guardrail check to prevent reintroducing the wrong name/slug by ensuring the string `mahek` does not appear anywhere in frontend source files (excluding any developer-provided screenshots or unrelated binary assets).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/index.css",
-          "frontend/src/components/ValentinePrompt.tsx",
+          "frontend/DEPLOYMENT_CHECKLIST.md",
+          "frontend/src/utils/legacySlugGuard.ts",
           "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/ValentinePrompt.tsx",
+          "frontend/DEPLOYMENT_CHECKLIST.md",
+          "frontend/src/utils/legacySlugGuard.ts",
           "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Keep the experience fully frontend-only (static interactive page behavior) with no backend dependency; the Motoko backend actor must remain unused.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/main.tsx",
-          "frontend/src/components/ValentinePrompt.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/ValentinePrompt.tsx"
-        ]
-      },
-      {
-        "id": "REQ-6",
-        "summary": "Add the required generated meme image as a static asset and render it from the frontend (do not fetch it via the backend).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png",
-          "frontend/src/components/ValentinePrompt.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png",
-          "frontend/src/components/ValentinePrompt.tsx"
         ]
       }
     ]
@@ -96,14 +73,12 @@
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/DEPLOYMENT_CHECKLIST.md",
-    "frontend/index.html",
-    "frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png",
     "frontend/src/App.tsx",
-    "frontend/src/components/AppLoadedIndicator.tsx",
+    "frontend/src/components/CopyShareLinkControl.tsx",
     "frontend/src/components/ValentinePrompt.tsx",
-    "frontend/src/config/branding.ts",
     "frontend/src/config/publicSiteUrl.ts",
     "frontend/src/utils/appMetadata.ts",
+    "frontend/src/utils/legacySlugGuard.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

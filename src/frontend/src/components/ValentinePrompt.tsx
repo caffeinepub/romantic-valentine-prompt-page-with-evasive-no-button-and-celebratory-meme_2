@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
 import { BRANDING } from '@/config/branding';
+import CopyShareLinkControl from './CopyShareLinkControl';
 
 export default function ValentinePrompt() {
   const [answered, setAnswered] = useState(false);
@@ -95,6 +96,9 @@ export default function ValentinePrompt() {
             />
           </CardContent>
         </Card>
+        <div className="mt-4">
+          <CopyShareLinkControl />
+        </div>
       </div>
     );
   }
@@ -146,6 +150,9 @@ export default function ValentinePrompt() {
             >
               No
             </Button>
+          </div>
+          <div className="flex justify-center px-4">
+            <CopyShareLinkControl />
           </div>
         </CardContent>
       </Card>

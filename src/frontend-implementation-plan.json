@@ -1,133 +1,97 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Romantic Valentine surprise page for Sunidhi with evasive No button and meme reveal",
+  "title": "Canonical share URL + runtime metadata sync to eliminate legacy 'mahek' slug",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Ensure the single-page prompt asks exactly “Will you be my Valentine Sunidhi🌸” and shows only “Yes” and “No” as interactive choices.",
+      "summary": "Centralize the intended public share URL in a single config constant and use it consistently to avoid any legacy 'mahek' URL construction.",
       "acceptanceCriteria": [
-        "On initial load, the only interactive choices visible to the user are buttons labeled “Yes” and “No”.",
-        "The displayed prompt text includes “Sunidhi🌸” as specified."
+        "A constant (e.g., `PUBLIC_SITE_URL`) exists in `frontend/src/config/publicSiteUrl.ts` and is set to the intended URL (must match the URL used in `frontend/index.html`, currently `https://npt-for-sunidhi.caffeine.xyz`).",
+        "No user-facing text or metadata generation logic hardcodes or constructs a URL containing the substring `mahek`."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/config/branding.ts",
+          "path": "frontend/src/config/publicSiteUrl.ts",
           "operation": "modify",
-          "description": "Update the prompt/title string to exactly “Will you be my Valentine Sunidhi🌸” (verbatim), keeping user-facing text centralized."
+          "description": "Define and export `PUBLIC_SITE_URL` as the single source of truth for the public, user-facing share URL; set it to `https://npt-for-sunidhi.caffeine.xyz` to match `frontend/index.html`."
         },
         {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
+          "path": "frontend/src/utils/appMetadata.ts",
           "operation": "modify",
-          "description": "Ensure the prompt view renders only the required question and exactly two interactive buttons labeled “Yes” and “No” (no additional CTAs). Use shadcn-ui Button/Card for consistent tap targets and layout. Verify the component's usage instructions before implementing."
+          "description": "Implement a small metadata helper that reads `PUBLIC_SITE_URL` (and branding config) and provides a single place to derive canonical/share URL values used by the app (no hardcoded URLs)."
         },
         {
           "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Align the initial HTML title/metadata to the updated prompt wording so the first paint matches the exact required question text."
+          "description": "Ensure static metadata values (title/description/og:url/canonical) match the configured branding and the configured `PUBLIC_SITE_URL`, and remove any legacy hardcoded references that could contain the old slug."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Make the “No” button evasive and effectively unclickable across desktop hover and iPad Chrome touch/pointer interactions while staying smoothly within the visible prompt container.",
+      "summary": "Add a user-visible in-app 'Copy link' control that copies the configured public URL, with a clear fallback when clipboard access fails.",
       "acceptanceCriteria": [
-        "Hovering over “No” on desktop causes it to reposition away from the cursor within the prompt container.",
-        "Attempting to press “No” on iPad Chrome (touch/pointer down) causes it to move away and prevents a click from registering.",
-        "The “No” button never moves outside the visible bounds of the prompt container."
+        "The main page includes a clearly labeled control (e.g., button) that copies the configured public URL to the clipboard.",
+        "After clicking the control, pasting into a chat shows the configured URL and does not contain `mahek`.",
+        "If clipboard access fails, the UI shows an English error message and presents the URL in a selectable text field as a fallback."
       ],
       "file_operations": [
         {
+          "path": "frontend/src/components/CopyShareLinkControl.tsx",
+          "operation": "create",
+          "description": "Create a reusable share control that copies `PUBLIC_SITE_URL` to clipboard and, on failure, shows an English error message plus a selectable text field containing the URL. Use shadcn-ui components (e.g., Button/Input) to keep styling consistent. Verify the component's usage instructions before implementing."
+        },
+        {
           "path": "frontend/src/components/ValentinePrompt.tsx",
           "operation": "modify",
-          "description": "Refine the No-button reposition logic to (1) respond to desktop hover and iPad pointer/touch-down attempts, (2) keep motion smooth, and (3) clamp the computed coordinates so the button remains fully visible inside the prompt container at all times. Use shadcn-ui Button for the No control. Verify the component's usage instructions before implementing."
+          "description": "Wire the new CopyShareLinkControl into the main prompt UI so it is clearly visible on the main page (and ensure it uses `PUBLIC_SITE_URL`, not `window.location`). Use existing shadcn-ui components for layout where appropriate. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "On “Yes” click, replace the prompt with a success view showing the exact text “Good choice❤❤❤” and the meme image.",
+      "summary": "Synchronize runtime document metadata (title, canonical URL, and og:url) with the configured public URL to reduce stale/cached metadata issues.",
       "acceptanceCriteria": [
-        "Clicking “Yes” transitions to a new view/state where the prompt/buttons are no longer shown.",
-        "The success view renders the exact message: “Good choice❤❤❤”.",
-        "The success view displays the meme image below/alongside the message."
+        "On app load, `document.title` matches the configured branding title.",
+        "On app load, the `<link rel=\"canonical\">` `href` equals the configured public URL.",
+        "On app load, the `<meta property=\"og:url\">` `content` equals the configured public URL."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/config/branding.ts",
+          "path": "frontend/src/utils/appMetadata.ts",
           "operation": "modify",
-          "description": "Confirm/lock the success message string to exactly “Good choice❤❤❤” (verbatim) so the rendered text matches the requirement."
+          "description": "Add a `syncRuntimeMetadata()` (or equivalent) that, on app load, sets `document.title`, updates/creates the canonical link tag, and updates/creates the `og:url` meta tag based on `BRANDING` and `PUBLIC_SITE_URL`."
         },
         {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Implement/verify the success state that fully replaces the prompt/buttons and renders the exact success message plus the meme image. Use shadcn-ui Card to frame the success content. Verify the component's usage instructions before implementing."
+          "description": "Call the runtime metadata synchronization on initial render (e.g., via a top-level effect) so title/canonical/og:url are corrected immediately on app load."
         }
       ]
     },
     {
       "id": "REQ-4",
-      "summary": "Apply a simple romantic pink/white theme with responsive, touch-friendly layout (iPad Chrome) and no horizontal overflow.",
+      "summary": "Add guardrails to prevent reintroducing the legacy 'mahek' slug in frontend source by enforcing/automating a repo-wide check and removing any occurrences.",
       "acceptanceCriteria": [
-        "Primary UI elements use a pink/white romantic palette.",
-        "Buttons are comfortably tappable on iPad (no cramped spacing).",
-        "No horizontal scrolling is required on iPad-sized viewports."
+        "A repository-wide, case-insensitive search across `frontend/src` and `frontend/index.html` returns zero matches for `mahek`.",
+        "If any matches are found during development, they are removed and replaced with the correct branding/URL configuration."
       ],
       "file_operations": [
         {
-          "path": "frontend/index.css",
+          "path": "frontend/DEPLOYMENT_CHECKLIST.md",
           "operation": "modify",
-          "description": "Verify/adjust global theme tokens and base styles to maintain a pink/white romantic palette and prevent horizontal overflow issues in common tablet viewports."
+          "description": "Update the checklist with an explicit, repeatable guardrail step that runs a case-insensitive search for `mahek` across `frontend/src` and `frontend/index.html`, and documents that results must be zero before shipping."
         },
         {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "modify",
-          "description": "Tune layout spacing/typography and button sizing to be readable and easily tappable on iPad, ensuring content remains within the viewport without horizontal scrolling. Use shadcn-ui Button/Card for consistent sizing. Verify the component's usage instructions before implementing."
+          "path": "frontend/src/utils/legacySlugGuard.ts",
+          "operation": "create",
+          "description": "Add a lightweight development-time guard utility that asserts `PUBLIC_SITE_URL` does not contain the legacy slug and can optionally sanity-check runtime-updated canonical/og:url values; use it as an extra safety net (not a replacement for the repo-wide search)."
         },
         {
           "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Ensure the page-level container enforces a responsive centered layout and guards against horizontal overflow across iPad-sized viewports."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Keep the Valentine interaction fully frontend-only with no backend calls or dependency on backend state.",
-      "acceptanceCriteria": [
-        "The Valentine interaction works without any backend calls.",
-        "The backend canister does not store or require any state for the Valentine flow."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/main.tsx",
-          "operation": "modify",
-          "description": "Remove/avoid wrapping the app in providers that initialize authentication/actor infrastructure for this single-page experience, keeping runtime strictly frontend-only."
-        },
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "modify",
-          "description": "Confirm the interaction logic is entirely local state (no imports/usages of backend actor hooks or network calls) and remains functional offline/without backend connectivity."
-        }
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "summary": "Add the generated meme image as a static frontend asset and render it directly (no backend fetch).",
-      "acceptanceCriteria": [
-        "The meme image file exists under frontend/public/assets/generated/ with the exact required filename.",
-        "The success view loads the meme image successfully in a production build."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png",
-          "operation": "create",
-          "description": "Add the generated static meme asset at the exact required path: frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png."
-        },
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
-          "operation": "modify",
-          "description": "Wire the success view image to load from the static asset path frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png (no backend fetch). Use shadcn-ui Card to present the image cleanly. Verify the component's usage instructions before implementing."
+          "description": "Wire the legacy slug guard to run on app load in development builds so accidental reintroduction is surfaced early during development."
         }
       ]
     }

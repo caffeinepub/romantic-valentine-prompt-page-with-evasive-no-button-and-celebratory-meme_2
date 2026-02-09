@@ -1,12 +1,14 @@
 {
-  "frontend/src/App.tsx": "Simplified main application component that renders only the ValentinePrompt with clean single-purpose Valentine experience, removing unnecessary URL guards and metadata sync.",
-  "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine's Day proposal component for Sunidhi with evasive \"No\" button that responds to hover, pointer, and touch events, plus celebratory meme reveal on \"Yes\" click with responsive touch-friendly sizing.",
+  "frontend/src/App.tsx": "Main application component that renders ValentinePrompt and synchronizes runtime metadata on mount, with legacy slug guard running in development mode.",
+  "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine's Day proposal component for Sunidhi with evasive \"No\" button, celebratory meme reveal on \"Yes\" click, and integrated share link control on both main and success screens.",
   "frontend/src/index.css": "Global styles with romantic pink and white OKLCH color theme, custom romantic color utilities, gradient background, and overflow prevention optimized for Valentine's Day aesthetic on all devices.",
   "frontend/tailwind.config.js": "Tailwind configuration extended with romantic-themed custom colors (romantic-primary, romantic-accent, romantic-muted) and increased border radius for softer appearance.",
-  "frontend/index.html": "HTML entry point with updated title and metadata matching the exact Valentine prompt text for Sunidhi with flower emoji.",
+  "frontend/index.html": "HTML entry point with updated metadata including canonical URL and og:url tags pointing to https://npt-for-sunidhi.caffeine.xyz to ensure correct share previews.",
   "frontend/src/config/branding.ts": "Centralized branding configuration with exact prompt text \"Will you be my Valentine Sunidhi🌸\" and success message \"Good choice❤❤❤\" to ensure consistency across the app.",
-  "frontend/src/config/publicSiteUrl.ts": "Public site URL configuration with PUBLIC_SITE_URL constant set to https://npt-for-sunidhi.caffeine.xyz and helper functions for URL validation and redirection.",
-  "frontend/src/utils/appMetadata.ts": "Runtime metadata synchronization utility that updates document title, canonical URL, and Open Graph tags to match current branding configuration, preventing stale cached metadata.",
-  "frontend/DEPLOYMENT_CHECKLIST.md": "Production deployment verification checklist updated for Version 8 with live URL https://npt-for-sunidhi.caffeine.xyz, includes explicit checks for HTML 200 status, bundle loading, load indicator visibility, and troubleshooting steps for placeholder vs real app diagnosis.",
-  "frontend/src/components/AppLoadedIndicator.tsx": "Lightweight fixed-position indicator component that displays \"App loaded\" text with version number and build timestamp in bottom-right corner, confirming React app has mounted successfully."
+  "frontend/src/config/publicSiteUrl.ts": "Single source of truth for the public share URL (https://npt-for-sunidhi.caffeine.xyz) with validation helpers to prevent legacy slug reintroduction.",
+  "frontend/src/utils/appMetadata.ts": "Runtime metadata synchronization utility that updates document title, canonical URL, and Open Graph tags to match current branding configuration on app load.",
+  "frontend/DEPLOYMENT_CHECKLIST.md": "Production deployment verification checklist with explicit legacy slug guard step requiring zero matches for 'mahek' across frontend source files before shipping.",
+  "frontend/src/components/AppLoadedIndicator.tsx": "Lightweight fixed-position indicator component that displays \"App loaded\" text with version number and build timestamp in bottom-right corner, confirming React app has mounted successfully.",
+  "frontend/src/utils/legacySlugGuard.ts": "Development-time guard that asserts the public URL does not contain the legacy 'mahek' slug and checks runtime metadata for accidental reintroduction.",
+  "frontend/src/components/CopyShareLinkControl.tsx": "Reusable share control component that copies the configured public URL to clipboard with error handling and manual copy fallback using selectable input field."
 }

@@ -1,127 +1,91 @@
 {
   "kind": "build_request",
-  "title": "Rebuild romantic Valentine surprise page for Sunidhi with evasive No button and meme reveal",
+  "title": "Fix shared URL showing old 'mahek' slug by adding canonical share link and removing legacy references",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Create a single-page romantic Valentine prompt that asks: “Will you be my Valentine Sunidhi🌸” and presents exactly two options labeled “Yes” and “No”, with no other user-facing actions or calls-to-action.",
+      "text": "Add a single source of truth for the intended public URL (the user-facing share URL) and ensure it is used consistently across the app so the user can share a link that does not include the old 'mahek' slug.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Create an interactive web page as a surprise for my girlfriend Sunidhi🌸... ask her to be my Valentine Sunidhi🌸. There should be two options: Yes or No."
+          "Again it shows 'mahek' in url"
         ]
       },
       "acceptanceCriteria": [
-        "On initial load, the only interactive choices visible to the user are buttons labeled “Yes” and “No”.",
-        "The displayed prompt text includes “Sunidhi🌸” as specified."
+        "A constant (e.g., `PUBLIC_SITE_URL`) exists in `frontend/src/config/publicSiteUrl.ts` and is set to the intended URL (must match the URL used in `frontend/index.html`, currently `https://npt-for-sunidhi.caffeine.xyz`).",
+        "No user-facing text or metadata generation logic hardcodes or constructs a URL containing the substring `mahek`."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Make the “No” option effectively unclickable by moving it away when the user attempts to interact with it (hover on desktop; touch/pointer interactions on iPad Chrome), keeping movement smooth and constrained within the prompt area so it stays visible.",
+      "text": "Add an in-app, user-visible 'Copy link' control that copies the intended public URL (not `window.location` if it includes an old slug) so the user can reliably share the correct link.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "When she hovers her cursor over No, it should move away so she cannot click it, forcing her to click only on Yes."
+          "Again it shows 'mahek' in url"
         ]
       },
       "acceptanceCriteria": [
-        "Hovering over “No” on desktop causes it to reposition away from the cursor within the prompt container.",
-        "Attempting to press “No” on iPad Chrome (touch/pointer down) causes it to move away and prevents a click from registering.",
-        "The “No” button never moves outside the visible bounds of the prompt container."
+        "The main page includes a clearly labeled control (e.g., button) that copies the configured public URL to the clipboard.",
+        "After clicking the control, pasting into a chat shows the configured URL and does not contain `mahek`.",
+        "If clipboard access fails, the UI shows an English error message and presents the URL in a selectable text field as a fallback."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "When the user clicks “Yes”, replace the prompt with a success view that displays the exact text “Good choice❤❤❤” and shows a meme image.",
+      "text": "Implement minimal runtime metadata synchronization to ensure the document title, canonical URL, and Open Graph `og:url` match the configured public URL at runtime (to reduce stale/cached metadata issues).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "When she clicks Yes, show her a meme image telling her \"Good choice❤❤❤\"."
+          "Again it shows 'mahek' in url"
         ]
       },
       "acceptanceCriteria": [
-        "Clicking “Yes” transitions to a new view/state where the prompt/buttons are no longer shown.",
-        "The success view renders the exact message: “Good choice❤❤❤”.",
-        "The success view displays the meme image below/alongside the message."
+        "On app load, `document.title` matches the configured branding title.",
+        "On app load, the `<link rel=\"canonical\">` `href` equals the configured public URL.",
+        "On app load, the `<meta property=\"og:url\">` `content` equals the configured public URL."
       ]
     },
     {
       "id": "REQ-4",
-      "text": "Apply a simple romantic theme using a pink and white color scheme and ensure the layout is responsive and touch-friendly for iPad Chrome (readable typography, large tap targets, no horizontal overflow).",
+      "text": "Add a guardrail check to prevent reintroducing the wrong name/slug by ensuring the string `mahek` does not appear anywhere in frontend source files (excluding any developer-provided screenshots or unrelated binary assets).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "The page should be themed romantically with a pink and white color scheme and be fully interactive... run it on my iPad using Chrome."
+          "Again it shows 'mahek' in url"
         ]
       },
       "acceptanceCriteria": [
-        "Primary UI elements use a pink/white romantic palette.",
-        "Buttons are comfortably tappable on iPad (no cramped spacing).",
-        "No horizontal scrolling is required on iPad-sized viewports."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Keep the experience fully frontend-only (static interactive page behavior) with no backend dependency; the Motoko backend actor must remain unused.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "...fully interactive using HTML, CSS, and JavaScript..."
-        ]
-      },
-      "acceptanceCriteria": [
-        "The Valentine interaction works without any backend calls.",
-        "The backend canister does not store or require any state for the Valentine flow."
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Add the required generated meme image as a static asset and render it from the frontend (do not fetch it via the backend).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "show her a meme image telling her \"Good choice❤❤❤\"."
-        ]
-      },
-      "acceptanceCriteria": [
-        "The meme image file exists under frontend/public/assets/generated/ with the exact required filename.",
-        "The success view loads the meme image successfully in a production build."
+        "A repository-wide, case-insensitive search across `frontend/src` and `frontend/index.html` returns zero matches for `mahek`.",
+        "If any matches are found during development, they are removed and replaced with the correct branding/URL configuration."
       ]
     }
   ],
   "constraints": [
-    "Do not edit any files under frontend/src/components/ui or other paths listed as immutable in SYSTEM_CONTEXT.",
-    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services or databases).",
-    "Use English for any user-facing text in the build request."
+    "Do not edit files under `frontend/src/components/ui` (compose them only).",
+    "Do not modify immutable hook files listed in SYSTEM_CONTEXT (e.g., `frontend/src/hooks/useInternetIdentity.ts(x)` and `frontend/src/hooks/useActor.ts`).",
+    "Backend must remain single-actor (no additional canisters/services)."
   ],
   "nonGoals": [
-    "Fixing or troubleshooting the Caffeine “Going live…” deployment UI/loading issue shown in the uploaded screenshot.",
-    "Adding authentication, user accounts, persistence, analytics, or any multi-page navigation."
+    "Renaming the deployed Caffeine subdomain/project slug via platform settings (outside the codebase).",
+    "Adding new authentication methods beyond Internet Identity.",
+    "Adding backend storage or database functionality."
   ],
   "imageRequirements": {
-    "required": [
-      "Meme-style romantic image with the words “Good choice❤❤❤” (valentine-good-choice-meme.dim_1200x800.png)"
-    ],
+    "required": [],
     "edits": []
   },
   "userProfileUpdate": {

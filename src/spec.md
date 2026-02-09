@@ -1,13 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Build a single-page, romantic Valentine surprise for Sunidhi🌸 with “Yes/No” choices where “No” evasively moves away, and “Yes” reveals a success message plus a meme image.
+**Goal:** Ensure the app consistently shares the correct public URL (without the legacy `mahek` slug) by centralizing the share URL configuration, adding a reliable “Copy link” control, and syncing runtime metadata.
 
 **Planned changes:**
-- Create a responsive single-page prompt that asks: “Will you be my Valentine Sunidhi🌸” with exactly two buttons: “Yes” and “No”.
-- Implement evasive “No” behavior: on desktop hover and on iPad Chrome touch/pointer interactions, move the button smoothly within the prompt container so it remains visible but effectively unclickable.
-- Implement “Yes” flow: clicking “Yes” replaces the prompt with a success view showing the exact text “Good choice❤❤❤” and a meme image.
-- Apply a simple romantic pink/white theme with touch-friendly spacing and no horizontal overflow on iPad-sized viewports.
-- Keep the experience frontend-only with no backend usage; add and serve the meme image as a static frontend asset from `frontend/public/assets/generated/`.
+- Add a single public URL constant (e.g., `PUBLIC_SITE_URL`) in `frontend/src/config/publicSiteUrl.ts`, matching the URL in `frontend/index.html` (`https://npt-for-sunidhi.caffeine.xyz`), and update all share/link/metadata logic to use it.
+- Add a user-visible “Copy link” control on the main page that copies the configured public URL (not `window.location`), with an English error + selectable text fallback if clipboard access fails.
+- On app load, set `document.title`, `<link rel="canonical">`, and `<meta property="og:url">` to match the configured public URL (and branding title).
+- Remove any remaining frontend references that include `mahek`, and add a guardrail check by ensuring repository-wide search across `frontend/src` and `frontend/index.html` returns zero matches for `mahek`.
 
-**User-visible outcome:** Users see a romantic Valentine prompt for Sunidhi🌸 with “Yes” and an evasive “No”; choosing “Yes” shows “Good choice❤❤❤” along with the included meme image.
+**User-visible outcome:** Users can copy/share a link from inside the app that always uses `https://npt-for-sunidhi.caffeine.xyz` and no longer shows the old `mahek` slug in shared URLs or link previews.

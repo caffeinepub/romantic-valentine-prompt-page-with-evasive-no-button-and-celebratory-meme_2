@@ -1,58 +1,46 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T14:14:22.335Z",
-  "summary": "Core Valentine prompt behavior appears implemented (single-page App renders ValentinePrompt; evasive No via hover/pointer/touch handlers; Yes transitions to success view with meme image path and success message sourced from branding). However, the required static meme asset file itself is not shown as added/modified in the diff summary, and several unrelated deployment/metadata/debug features were introduced that were not requested.",
+  "generatedAt": "2026-02-09T16:12:31.699Z",
+  "summary": "Implemented a centralized PUBLIC_SITE_URL config, added an in-app “Copy share link” control with clipboard fallback, and added runtime metadata synchronization for title/canonical/og:url. However, the diff introduces multiple literal occurrences of the string “mahek” in frontend source, which violates REQ-4’s zero-match guardrail.",
   "missing_requirements": [
     {
-      "id": "REQ-6",
-      "requirement": "Add the required generated meme image as a static asset under frontend/public/assets/generated/ with the exact filename valentine-good-choice-meme.dim_1200x800.png.",
-      "reason": "The diff summary shows no added files, and there is no evidence that the required image file was added under frontend/public/assets/generated/. The component references the path, but the asset itself is not present in the diff.",
+      "id": "REQ-4",
+      "requirement": "Ensure the string `mahek` does not appear anywhere in frontend source files (`frontend/src`) and `frontend/index.html` (case-insensitive).",
+      "reason": "The diff explicitly adds the literal string `mahek` into new/modified frontend source files as part of validation/guard logic, which contradicts the acceptance criteria requiring zero matches.",
       "evidence": [
-        "File diff summary: \"Added: 0\"",
-        "frontend/src/components/ValentinePrompt.tsx (references \"/assets/generated/valentine-good-choice-meme.dim_1200x800.png\")"
+        "frontend/src/utils/legacySlugGuard.ts (contains `const legacySlug = 'mahek';` and related messages)",
+        "frontend/src/config/publicSiteUrl.ts (contains `const legacySlug = 'mahek';`)"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Added an \"App loaded\" fixed-position indicator with version/build timestamp (debug/diagnostic UI).",
-      "reason": "Not requested; BuildRequest explicitly focuses on the Valentine prompt with only Yes/No actions and lists deployment UI troubleshooting as a non-goal.",
+      "description": "Added an `AppLoadedIndicator` component that shows an “App loaded” indicator with version/build timestamp.",
+      "reason": "Not requested by any requirement (REQ-1..REQ-4) and unrelated to fixing share URL/canonical/slug guardrails.",
       "evidence": [
-        "frontend/src/components/AppLoadedIndicator.tsx",
-        "frontend/DEPLOYMENT_CHECKLIST.md",
-        "frontend-file-summaries.txt (AppLoadedIndicator description)"
+        "frontend-file-summaries.txt (mentions `frontend/src/components/AppLoadedIndicator.tsx`)"
       ]
     },
     {
-      "description": "Added public site URL configuration with URL validation/redirection helpers.",
-      "reason": "Not requested; BuildRequest requires a static frontend-only interaction and explicitly lists multi-page navigation and deployment troubleshooting as non-goals.",
+      "description": "Added/updated Open Graph `og:title` synchronization at runtime.",
+      "reason": "REQ-3 only calls for synchronizing document title, canonical URL, and `og:url`; `og:title` is additional behavior not requested.",
       "evidence": [
-        "frontend/src/config/publicSiteUrl.ts",
-        "frontend-file-summaries.txt (publicSiteUrl summary)"
+        "frontend/src/utils/appMetadata.ts (creates/updates `meta[property=\"og:title\"]`)"
       ]
     },
     {
-      "description": "Runtime metadata synchronization (document title/canonical/Open Graph) utility.",
-      "reason": "Not requested for the Valentine interaction; introduces extra behavior beyond the specified single-page prompt flow.",
+      "description": "Added a deployment checklist document for pre-deployment verification.",
+      "reason": "Not requested by the BuildRequest requirements; REQ-4 specifies removal/prevention in source, not adding process documentation.",
       "evidence": [
-        "frontend/src/utils/appMetadata.ts",
-        "frontend-file-summaries.txt (appMetadata summary)"
+        "frontend/DEPLOYMENT_CHECKLIST.md"
       ]
     },
     {
-      "description": "Added no-cache meta headers in HTML.",
-      "reason": "Not requested and relates to deployment/caching concerns, which are outside scope per non-goals.",
+      "description": "Modified styling/theme configuration (Tailwind config and global CSS) for “romantic” theme/colors.",
+      "reason": "Not requested by REQ-1..REQ-4, which focus on URL sharing and metadata/slug removal.",
       "evidence": [
-        "frontend/index.html (Cache-Control/Pragma/Expires meta tags)"
-      ]
-    },
-    {
-      "description": "Added/updated a deployment checklist document with troubleshooting steps and live URL.",
-      "reason": "Not requested and directly overlaps with the stated non-goal of troubleshooting the deployment UI/loading issue.",
-      "evidence": [
-        "frontend/DEPLOYMENT_CHECKLIST.md",
-        "frontend-file-summaries.txt (DEPLOYMENT_CHECKLIST.md summary)"
+        "frontend-file-summaries.txt (mentions `frontend/src/index.css` and `frontend/tailwind.config.js` changes)"
       ]
     }
   ],
@@ -60,13 +48,12 @@
   "changed_files": [
     "frontend-file-summaries.txt",
     "frontend/DEPLOYMENT_CHECKLIST.md",
-    "frontend/index.html",
     "frontend/src/App.tsx",
-    "frontend/src/components/AppLoadedIndicator.tsx",
+    "frontend/src/components/CopyShareLinkControl.tsx",
     "frontend/src/components/ValentinePrompt.tsx",
-    "frontend/src/config/branding.ts",
     "frontend/src/config/publicSiteUrl.ts",
     "frontend/src/utils/appMetadata.ts",
+    "frontend/src/utils/legacySlugGuard.ts",
     "project_state.json"
   ]
 }
