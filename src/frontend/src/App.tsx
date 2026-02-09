@@ -2,9 +2,13 @@ import { useEffect } from 'react';
 import ValentinePrompt from './components/ValentinePrompt';
 import { syncRuntimeMetadata } from './utils/appMetadata';
 import { assertNoLegacySlug } from './utils/legacySlugGuard';
+import { guardAgainstAdminTokenHash } from './utils/adminTokenHashGuard';
 
 function App() {
   useEffect(() => {
+    // Guard against admin token in URL hash (must run first)
+    guardAgainstAdminTokenHash();
+    
     // Synchronize runtime metadata on app load
     syncRuntimeMetadata();
     

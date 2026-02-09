@@ -1,68 +1,48 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T16:12:31.701Z",
+  "generatedAt": "2026-02-09T16:22:19.104Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Add a single source of truth for the intended public URL (the user-facing share URL) and ensure it is used consistently across the app so the user can share a link that does not include the old 'mahek' slug.",
+        "summary": "Add a runtime guard that detects if the app is opened with an admin-mode hash token (e.g., `#caffeineAdminToken=...`) and automatically converts the URL to the clean public URL (`PUBLIC_SITE_URL`) so visitors do not land on the Caffeine admin/dashboard screen.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/config/publicSiteUrl.ts",
-          "frontend/src/utils/appMetadata.ts",
-          "frontend/index.html"
+          "frontend/src/utils/adminTokenHashGuard.ts",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/config/publicSiteUrl.ts",
-          "frontend/src/utils/appMetadata.ts"
+          "frontend/src/utils/adminTokenHashGuard.ts",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Add an in-app, user-visible 'Copy link' control that copies the intended public URL (not `window.location` if it includes an old slug) so the user can reliably share the correct link.",
+        "summary": "Update the share-link UX to explicitly warn users not to share admin links and to always share the canonical public URL from `frontend/src/config/publicSiteUrl.ts`.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/CopyShareLinkControl.tsx",
-          "frontend/src/components/ValentinePrompt.tsx"
+          "frontend/src/components/CopyShareLinkControl.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/CopyShareLinkControl.tsx",
-          "frontend/src/components/ValentinePrompt.tsx"
+          "frontend/src/components/CopyShareLinkControl.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Implement minimal runtime metadata synchronization to ensure the document title, canonical URL, and Open Graph `og:url` match the configured public URL at runtime (to reduce stale/cached metadata issues).",
+        "summary": "Update the deployment checklist documentation to include a verification step that the published/live visitor link contains no `#caffeineAdminToken` fragment and that the clean URL renders the app content.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/appMetadata.ts",
-          "frontend/src/App.tsx"
+          "frontend/DEPLOYMENT_CHECKLIST.md"
         ],
         "matchedFiles": [
-          "frontend/src/utils/appMetadata.ts",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Add a guardrail check to prevent reintroducing the wrong name/slug by ensuring the string `mahek` does not appear anywhere in frontend source files (excluding any developer-provided screenshots or unrelated binary assets).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/DEPLOYMENT_CHECKLIST.md",
-          "frontend/src/utils/legacySlugGuard.ts",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/DEPLOYMENT_CHECKLIST.md",
-          "frontend/src/utils/legacySlugGuard.ts",
-          "frontend/src/App.tsx"
+          "frontend/DEPLOYMENT_CHECKLIST.md"
         ]
       }
     ]
@@ -75,10 +55,7 @@
     "frontend/DEPLOYMENT_CHECKLIST.md",
     "frontend/src/App.tsx",
     "frontend/src/components/CopyShareLinkControl.tsx",
-    "frontend/src/components/ValentinePrompt.tsx",
-    "frontend/src/config/publicSiteUrl.ts",
-    "frontend/src/utils/appMetadata.ts",
-    "frontend/src/utils/legacySlugGuard.ts",
+    "frontend/src/utils/adminTokenHashGuard.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

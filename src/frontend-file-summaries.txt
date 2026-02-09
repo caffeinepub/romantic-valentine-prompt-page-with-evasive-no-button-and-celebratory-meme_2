@@ -1,5 +1,5 @@
 {
-  "frontend/src/App.tsx": "Main application component that renders ValentinePrompt and synchronizes runtime metadata on mount, with legacy slug guard running in development mode.",
+  "frontend/src/App.tsx": "Main application component that renders ValentinePrompt, guards against admin token hash on mount, and synchronizes runtime metadata with legacy slug guard running in development mode.",
   "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine's Day proposal component for Sunidhi with evasive \"No\" button, celebratory meme reveal on \"Yes\" click, and integrated share link control on both main and success screens.",
   "frontend/src/index.css": "Global styles with romantic pink and white OKLCH color theme, custom romantic color utilities, gradient background, and overflow prevention optimized for Valentine's Day aesthetic on all devices.",
   "frontend/tailwind.config.js": "Tailwind configuration extended with romantic-themed custom colors (romantic-primary, romantic-accent, romantic-muted) and increased border radius for softer appearance.",
@@ -7,8 +7,9 @@
   "frontend/src/config/branding.ts": "Centralized branding configuration with exact prompt text \"Will you be my Valentine Sunidhi🌸\" and success message \"Good choice❤❤❤\" to ensure consistency across the app.",
   "frontend/src/config/publicSiteUrl.ts": "Single source of truth for the public share URL (https://npt-for-sunidhi.caffeine.xyz) with validation helpers to prevent legacy slug reintroduction.",
   "frontend/src/utils/appMetadata.ts": "Runtime metadata synchronization utility that updates document title, canonical URL, and Open Graph tags to match current branding configuration on app load.",
-  "frontend/DEPLOYMENT_CHECKLIST.md": "Production deployment verification checklist with explicit legacy slug guard step requiring zero matches for 'mahek' across frontend source files before shipping.",
+  "frontend/DEPLOYMENT_CHECKLIST.md": "Production deployment verification checklist with explicit steps for branding configuration, legacy slug guard, share link verification, admin token hash guard testing, and post-deployment live site checks.",
   "frontend/src/components/AppLoadedIndicator.tsx": "Lightweight fixed-position indicator component that displays \"App loaded\" text with version number and build timestamp in bottom-right corner, confirming React app has mounted successfully.",
   "frontend/src/utils/legacySlugGuard.ts": "Development-time guard that asserts the public URL does not contain the legacy 'mahek' slug and checks runtime metadata for accidental reintroduction.",
-  "frontend/src/components/CopyShareLinkControl.tsx": "Reusable share control component that copies the configured public URL to clipboard with error handling and manual copy fallback using selectable input field."
+  "frontend/src/components/CopyShareLinkControl.tsx": "Reusable share control component that copies the configured public URL to clipboard with error handling, manual copy fallback, and an always-visible warning note explaining not to share admin-token links.",
+  "frontend/src/utils/adminTokenHashGuard.ts": "Runtime guard utility that detects and removes caffeineAdminToken from URL hash, preventing visitors from landing on the Caffeine admin/dashboard screen by redirecting to the canonical public URL in production."
 }

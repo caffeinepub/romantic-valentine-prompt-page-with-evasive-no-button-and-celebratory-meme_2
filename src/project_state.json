@@ -2,47 +2,41 @@
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
   "summary": "New project",
-  "architectural_notes": [],
+  "architectural_notes": [
+    "Public/shareable URL must be the base domain (e.g., https://<app>.caffeine.xyz) without #caffeineAdminToken; admin-token links open the Caffeine admin/dashboard view."
+  ],
   "known_issues": [
-    "Deployed site URL is incorrectly showing 'mahek' in the URL (unexpected slug/route/base path)."
+    "Sharing a URL containing #caffeineAdminToken causes recipients to see the Caffeine admin/dashboard screen ('Publish or restore your Caffeine app...') instead of the live app."
   ],
   "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-add-a-single-source-of-truth-for-the-intended-public-url-the-user-facing-share-url-and-ensure-it-is-used-consistently-across-the-app-so-the-user-can-share-a-link-that-does-not-include-the-old-mahek-slug",
-      "title": "Add a single source of truth for the intended public URL (the user-facing share URL) and ensure it is used consistently across the app so the user can share a link that does not include the old 'mahek' slug.",
+      "id": "feature-add-a-runtime-guard-that-detects-if-the-app-is-opened-with-an-admin-mode-hash-token-e-g-caffeineadmintoken-and-automatically-converts-the-url-to-the-clean-public-url-public-site-url-so-visitors-do-not-land-on-the-caffeine-admin-dashboard-screen",
+      "title": "Add a runtime guard that detects if the app is opened with an admin-mode hash token (e.g., `#caffeineAdminToken=...`) and automatically converts the URL to the clean public URL (`PUBLIC_SITE_URL`) so visitors do not land on the Caffeine admin/dashboard screen.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-an-in-app-user-visible-copy-link-control-that-copies-the-intended-public-url-not-window-location-if-it-includes-an-old-slug-so-the-user-can-reliably-share-the-correct-link",
-      "title": "Add an in-app, user-visible 'Copy link' control that copies the intended public URL (not `window.location` if it includes an old slug) so the user can reliably share the correct link.",
+      "id": "feature-update-the-share-link-ux-to-explicitly-warn-users-not-to-share-admin-links-and-to-always-share-the-canonical-public-url-from-frontend-src-config-publicsiteurl-ts",
+      "title": "Update the share-link UX to explicitly warn users not to share admin links and to always share the canonical public URL from `frontend/src/config/publicSiteUrl.ts`.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-minimal-runtime-metadata-synchronization-to-ensure-the-document-title-canonical-url-and-open-graph-og-url-match-the-configured-public-url-at-runtime-to-reduce-stale-cached-metadata-issues",
-      "title": "Implement minimal runtime metadata synchronization to ensure the document title, canonical URL, and Open Graph `og:url` match the configured public URL at runtime (to reduce stale/cached metadata issues).",
+      "id": "feature-update-the-deployment-checklist-documentation-to-include-a-verification-step-that-the-published-live-visitor-link-contains-no-caffeineadmintoken-fragment-and-that-the-clean-url-renders-the-app-content",
+      "title": "Update the deployment checklist documentation to include a verification step that the published/live visitor link contains no `#caffeineAdminToken` fragment and that the clean URL renders the app content.",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-guardrail-check-to-prevent-reintroducing-the-wrong-name-slug-by-ensuring-the-string-mahek-does-not-appear-anywhere-in-frontend-source-files-excluding-any-developer-provided-screenshots-or-unrelated-binary-assets",
-      "title": "Add a guardrail check to prevent reintroducing the wrong name/slug by ensuring the string `mahek` does not appear anywhere in frontend source files (excluding any developer-provided screenshots or unrelated binary assets).",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
   ],
   "new_feature_requests": [],
-  "projectName": "Fix shared URL showing old 'mahek' slug by adding canonical share link and removing legacy references",
+  "projectName": "Republish latest build and prevent admin-token links from being shared",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

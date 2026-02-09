@@ -10,3 +10,4 @@
 
 ### 2. Legacy Slug Guard (CRITICAL)
 Run the following command from the project root to ensure no legacy slug exists:
+

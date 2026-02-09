@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Share2, Check, AlertCircle } from 'lucide-react';
+import { Share2, Check, AlertCircle, Info } from 'lucide-react';
 import { PUBLIC_SITE_URL } from '@/config/publicSiteUrl';
 
 export default function CopyShareLinkControl() {
@@ -39,6 +39,13 @@ export default function CopyShareLinkControl() {
           </>
         )}
       </Button>
+
+      <div className="flex items-start gap-2 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+        <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-blue-800">
+          Share only this clean link. Never share URLs containing <code className="bg-blue-100 px-1 rounded">#caffeineAdminToken=...</code> — those are admin-only and will show a blank screen to visitors.
+        </p>
+      </div>
 
       {error && (
         <div className="space-y-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">

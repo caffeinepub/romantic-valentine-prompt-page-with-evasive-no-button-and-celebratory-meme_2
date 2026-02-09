@@ -1,101 +1,74 @@
 {
   "kind": "build_request",
-  "title": "Fix shared URL showing old 'mahek' slug by adding canonical share link and removing legacy references",
+  "title": "Republish latest build and prevent admin-token links from being shared",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Add a single source of truth for the intended public URL (the user-facing share URL) and ensure it is used consistently across the app so the user can share a link that does not include the old 'mahek' slug.",
+      "text": "Add a runtime guard that detects if the app is opened with an admin-mode hash token (e.g., `#caffeineAdminToken=...`) and automatically converts the URL to the clean public URL (`PUBLIC_SITE_URL`) so visitors do not land on the Caffeine admin/dashboard screen.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-1"
         ],
         "quotes": [
-          "Again it shows 'mahek' in url"
+          "Publish my latest version to live"
         ]
       },
       "acceptanceCriteria": [
-        "A constant (e.g., `PUBLIC_SITE_URL`) exists in `frontend/src/config/publicSiteUrl.ts` and is set to the intended URL (must match the URL used in `frontend/index.html`, currently `https://npt-for-sunidhi.caffeine.xyz`).",
-        "No user-facing text or metadata generation logic hardcodes or constructs a URL containing the substring `mahek`."
+        "If `window.location.hash` contains `caffeineAdminToken`, the app removes the hash (using `history.replaceState` or equivalent) and navigates to the clean public URL (`https://npt-for-sunidhi.caffeine.xyz`).",
+        "If there is no `caffeineAdminToken` in the hash, the app behavior is unchanged.",
+        "The guard does not rely on any backend changes and does not break local development."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Add an in-app, user-visible 'Copy link' control that copies the intended public URL (not `window.location` if it includes an old slug) so the user can reliably share the correct link.",
+      "text": "Update the share-link UX to explicitly warn users not to share admin links and to always share the canonical public URL from `frontend/src/config/publicSiteUrl.ts`.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-1"
         ],
         "quotes": [
-          "Again it shows 'mahek' in url"
+          "When I share this link this shows see in screenshot"
         ]
       },
       "acceptanceCriteria": [
-        "The main page includes a clearly labeled control (e.g., button) that copies the configured public URL to the clipboard.",
-        "After clicking the control, pasting into a chat shows the configured URL and does not contain `mahek`.",
-        "If clipboard access fails, the UI shows an English error message and presents the URL in a selectable text field as a fallback."
+        "The share control continues to copy exactly `PUBLIC_SITE_URL` (not `window.location.href`).",
+        "The UI includes a short English note near the share control clarifying that links containing `#caffeineAdminToken=...` are admin-only and should not be shared.",
+        "Copy fallback UI (manual copy input) continues to work as before."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Implement minimal runtime metadata synchronization to ensure the document title, canonical URL, and Open Graph `og:url` match the configured public URL at runtime (to reduce stale/cached metadata issues).",
+      "text": "Update the deployment checklist documentation to include a verification step that the published/live visitor link contains no `#caffeineAdminToken` fragment and that the clean URL renders the app content.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-1"
         ],
         "quotes": [
-          "Again it shows 'mahek' in url"
+          "Publish my latest version to live"
         ]
       },
       "acceptanceCriteria": [
-        "On app load, `document.title` matches the configured branding title.",
-        "On app load, the `<link rel=\"canonical\">` `href` equals the configured public URL.",
-        "On app load, the `<meta property=\"og:url\">` `content` equals the configured public URL."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Add a guardrail check to prevent reintroducing the wrong name/slug by ensuring the string `mahek` does not appear anywhere in frontend source files (excluding any developer-provided screenshots or unrelated binary assets).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-6"
-        ],
-        "quotes": [
-          "Again it shows 'mahek' in url"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A repository-wide, case-insensitive search across `frontend/src` and `frontend/index.html` returns zero matches for `mahek`.",
-        "If any matches are found during development, they are removed and replaced with the correct branding/URL configuration."
+        "`frontend/DEPLOYMENT_CHECKLIST.md` includes a step to verify sharing the clean URL `https://npt-for-sunidhi.caffeine.xyz` (with no hash) shows the app content.",
+        "Checklist includes a note that admin-token links should never be sent to visitors because they show the Caffeine admin/dashboard screen."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under `frontend/src/components/ui` (compose them only).",
-    "Do not modify immutable hook files listed in SYSTEM_CONTEXT (e.g., `frontend/src/hooks/useInternetIdentity.ts(x)` and `frontend/src/hooks/useActor.ts`).",
-    "Backend must remain single-actor (no additional canisters/services)."
+    "Do not edit files under `frontend/src/components/ui` (compose these components only).",
+    "Do not modify any files listed as immutable: `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, and all of `frontend/src/components/ui`.",
+    "Backend must remain a single Motoko actor in `backend/main.mo` (no additional backend services or databases)."
   ],
   "nonGoals": [
-    "Renaming the deployed Caffeine subdomain/project slug via platform settings (outside the codebase).",
-    "Adding new authentication methods beyond Internet Identity.",
-    "Adding backend storage or database functionality."
+    "Implementing new backend features (the backend actor is currently empty and does not need changes for this request).",
+    "Adding third-party authentication providers beyond Internet Identity.",
+    "Adding new pages or major redesign unrelated to publishing and share-link correctness."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

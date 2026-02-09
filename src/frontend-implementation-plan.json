@@ -1,97 +1,57 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Canonical share URL + runtime metadata sync to eliminate legacy 'mahek' slug",
+  "title": "Guard against admin-token URLs and reinforce canonical share links",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Centralize the intended public share URL in a single config constant and use it consistently to avoid any legacy 'mahek' URL construction.",
+      "summary": "Add a runtime guard that strips `#caffeineAdminToken=...` from the URL and redirects visitors to the canonical `PUBLIC_SITE_URL` to avoid landing on the Caffeine admin/dashboard screen.",
       "acceptanceCriteria": [
-        "A constant (e.g., `PUBLIC_SITE_URL`) exists in `frontend/src/config/publicSiteUrl.ts` and is set to the intended URL (must match the URL used in `frontend/index.html`, currently `https://npt-for-sunidhi.caffeine.xyz`).",
-        "No user-facing text or metadata generation logic hardcodes or constructs a URL containing the substring `mahek`."
+        "If `window.location.hash` contains `caffeineAdminToken`, the app removes the hash (using `history.replaceState` or equivalent) and navigates to the clean public URL (`https://npt-for-sunidhi.caffeine.xyz`).",
+        "If there is no `caffeineAdminToken` in the hash, the app behavior is unchanged.",
+        "The guard does not rely on any backend changes and does not break local development."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/config/publicSiteUrl.ts",
-          "operation": "modify",
-          "description": "Define and export `PUBLIC_SITE_URL` as the single source of truth for the public, user-facing share URL; set it to `https://npt-for-sunidhi.caffeine.xyz` to match `frontend/index.html`."
+          "path": "frontend/src/utils/adminTokenHashGuard.ts",
+          "operation": "create",
+          "description": "Create a small runtime helper that detects `caffeineAdminToken` in `window.location.hash`, removes the hash via `history.replaceState`, and (in production) redirects to the canonical `PUBLIC_SITE_URL`, while keeping local development safe (avoid redirecting away from localhost/dev origins)."
         },
         {
-          "path": "frontend/src/utils/appMetadata.ts",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Implement a small metadata helper that reads `PUBLIC_SITE_URL` (and branding config) and provides a single place to derive canonical/share URL values used by the app (no hardcoded URLs)."
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Ensure static metadata values (title/description/og:url/canonical) match the configured branding and the configured `PUBLIC_SITE_URL`, and remove any legacy hardcoded references that could contain the old slug."
+          "description": "Wire the admin-token hash guard to run at startup (early in the existing `useEffect`) so that any visit with `#caffeineAdminToken=...` is immediately cleaned up and routed to the configured `PUBLIC_SITE_URL` without changing behavior for normal visitors."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Add a user-visible in-app 'Copy link' control that copies the configured public URL, with a clear fallback when clipboard access fails.",
+      "summary": "Update the share-link control UI to warn users not to share admin-token links and ensure copying always uses the canonical `PUBLIC_SITE_URL`.",
       "acceptanceCriteria": [
-        "The main page includes a clearly labeled control (e.g., button) that copies the configured public URL to the clipboard.",
-        "After clicking the control, pasting into a chat shows the configured URL and does not contain `mahek`.",
-        "If clipboard access fails, the UI shows an English error message and presents the URL in a selectable text field as a fallback."
+        "The share control continues to copy exactly `PUBLIC_SITE_URL` (not `window.location.href`).",
+        "The UI includes a short English note near the share control clarifying that links containing `#caffeineAdminToken=...` are admin-only and should not be shared.",
+        "Copy fallback UI (manual copy input) continues to work as before."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/CopyShareLinkControl.tsx",
-          "operation": "create",
-          "description": "Create a reusable share control that copies `PUBLIC_SITE_URL` to clipboard and, on failure, shows an English error message plus a selectable text field containing the URL. Use shadcn-ui components (e.g., Button/Input) to keep styling consistent. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
           "operation": "modify",
-          "description": "Wire the new CopyShareLinkControl into the main prompt UI so it is clearly visible on the main page (and ensure it uses `PUBLIC_SITE_URL`, not `window.location`). Use existing shadcn-ui components for layout where appropriate. Verify the component's usage instructions before implementing."
+          "description": "Add an always-visible short warning/note near the share button clarifying not to share links containing `#caffeineAdminToken=...`, and reaffirm that the copied link is the canonical public URL from `frontend/src/config/publicSiteUrl.ts`. Keep copy behavior using `PUBLIC_SITE_URL` and preserve the existing fallback manual copy UI. Use existing shadcn-ui `Button` and `Input` components (compose only; do not edit `frontend/src/components/ui`). Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Synchronize runtime document metadata (title, canonical URL, and og:url) with the configured public URL to reduce stale/cached metadata issues.",
+      "summary": "Update the deployment checklist to verify the live visitor URL is hash-free and renders app content, and to remind that admin-token links must not be shared.",
       "acceptanceCriteria": [
-        "On app load, `document.title` matches the configured branding title.",
-        "On app load, the `<link rel=\"canonical\">` `href` equals the configured public URL.",
-        "On app load, the `<meta property=\"og:url\">` `content` equals the configured public URL."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/utils/appMetadata.ts",
-          "operation": "modify",
-          "description": "Add a `syncRuntimeMetadata()` (or equivalent) that, on app load, sets `document.title`, updates/creates the canonical link tag, and updates/creates the `og:url` meta tag based on `BRANDING` and `PUBLIC_SITE_URL`."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Call the runtime metadata synchronization on initial render (e.g., via a top-level effect) so title/canonical/og:url are corrected immediately on app load."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Add guardrails to prevent reintroducing the legacy 'mahek' slug in frontend source by enforcing/automating a repo-wide check and removing any occurrences.",
-      "acceptanceCriteria": [
-        "A repository-wide, case-insensitive search across `frontend/src` and `frontend/index.html` returns zero matches for `mahek`.",
-        "If any matches are found during development, they are removed and replaced with the correct branding/URL configuration."
+        "`frontend/DEPLOYMENT_CHECKLIST.md` includes a step to verify sharing the clean URL `https://npt-for-sunidhi.caffeine.xyz` (with no hash) shows the app content.",
+        "Checklist includes a note that admin-token links should never be sent to visitors because they show the Caffeine admin/dashboard screen."
       ],
       "file_operations": [
         {
           "path": "frontend/DEPLOYMENT_CHECKLIST.md",
           "operation": "modify",
-          "description": "Update the checklist with an explicit, repeatable guardrail step that runs a case-insensitive search for `mahek` across `frontend/src` and `frontend/index.html`, and documents that results must be zero before shipping."
-        },
-        {
-          "path": "frontend/src/utils/legacySlugGuard.ts",
-          "operation": "create",
-          "description": "Add a lightweight development-time guard utility that asserts `PUBLIC_SITE_URL` does not contain the legacy slug and can optionally sanity-check runtime-updated canonical/og:url values; use it as an extra safety net (not a replacement for the repo-wide search)."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire the legacy slug guard to run on app load in development builds so accidental reintroduction is surfaced early during development."
+          "description": "Extend the checklist with a new verification step to open/share `https://npt-for-sunidhi.caffeine.xyz` with no hash and confirm the app content renders, plus an explicit note that URLs containing `#caffeineAdminToken=...` are admin-only and must never be shared with visitors. Also ensure the markdown remains well-formed (close/complete any incomplete sections as needed)."
         }
       ]
     }

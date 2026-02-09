@@ -1,59 +1,41 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T16:12:31.699Z",
-  "summary": "Implemented a centralized PUBLIC_SITE_URL config, added an in-app “Copy share link” control with clipboard fallback, and added runtime metadata synchronization for title/canonical/og:url. However, the diff introduces multiple literal occurrences of the string “mahek” in frontend source, which violates REQ-4’s zero-match guardrail.",
+  "generatedAt": "2026-02-09T16:22:19.101Z",
+  "summary": "REQ-1 and REQ-2 appear implemented via a new URL-hash guard and updated share-link control that copies PUBLIC_SITE_URL and warns against sharing admin-token links. REQ-3 cannot be confirmed from the provided DEPLOYMENT_CHECKLIST.md excerpt (content appears truncated before any admin-token/clean-URL verification step). Additionally, non-requested project/meta files were modified.",
   "missing_requirements": [
     {
-      "id": "REQ-4",
-      "requirement": "Ensure the string `mahek` does not appear anywhere in frontend source files (`frontend/src`) and `frontend/index.html` (case-insensitive).",
-      "reason": "The diff explicitly adds the literal string `mahek` into new/modified frontend source files as part of validation/guard logic, which contradicts the acceptance criteria requiring zero matches.",
+      "id": "REQ-3",
+      "requirement": "Update the deployment checklist documentation to include a verification step that the published/live visitor link contains no `#caffeineAdminToken` fragment and that the clean URL renders the app content.",
+      "reason": "The diff excerpt for `frontend/DEPLOYMENT_CHECKLIST.md` is truncated and does not show the required checklist step(s) about verifying the clean URL (https://npt-for-sunidhi.caffeine.xyz with no hash) renders app content and that admin-token links should not be shared.",
       "evidence": [
-        "frontend/src/utils/legacySlugGuard.ts (contains `const legacySlug = 'mahek';` and related messages)",
-        "frontend/src/config/publicSiteUrl.ts (contains `const legacySlug = 'mahek';`)"
+        "frontend/DEPLOYMENT_CHECKLIST.md (truncated in diff; no visible admin-token/clean-URL verification steps)"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Added an `AppLoadedIndicator` component that shows an “App loaded” indicator with version/build timestamp.",
-      "reason": "Not requested by any requirement (REQ-1..REQ-4) and unrelated to fixing share URL/canonical/slug guardrails.",
+      "description": "Modification of repository/project metadata/state file not requested by the BuildRequest.",
+      "reason": "BuildRequest only asks for frontend guard, share-link UX changes, and deployment checklist documentation updates; it does not request updating `project_state.json`.",
       "evidence": [
-        "frontend-file-summaries.txt (mentions `frontend/src/components/AppLoadedIndicator.tsx`)"
+        "project_state.json"
       ]
     },
     {
-      "description": "Added/updated Open Graph `og:title` synchronization at runtime.",
-      "reason": "REQ-3 only calls for synchronizing document title, canonical URL, and `og:url`; `og:title` is additional behavior not requested.",
+      "description": "Addition/modification of a frontend file summary artifact not requested by the BuildRequest.",
+      "reason": "BuildRequest does not ask for maintaining or generating `frontend-file-summaries.txt`.",
       "evidence": [
-        "frontend/src/utils/appMetadata.ts (creates/updates `meta[property=\"og:title\"]`)"
-      ]
-    },
-    {
-      "description": "Added a deployment checklist document for pre-deployment verification.",
-      "reason": "Not requested by the BuildRequest requirements; REQ-4 specifies removal/prevention in source, not adding process documentation.",
-      "evidence": [
-        "frontend/DEPLOYMENT_CHECKLIST.md"
-      ]
-    },
-    {
-      "description": "Modified styling/theme configuration (Tailwind config and global CSS) for “romantic” theme/colors.",
-      "reason": "Not requested by REQ-1..REQ-4, which focus on URL sharing and metadata/slug removal.",
-      "evidence": [
-        "frontend-file-summaries.txt (mentions `frontend/src/index.css` and `frontend/tailwind.config.js` changes)"
+        "frontend-file-summaries.txt"
       ]
     }
   ],
-  "confidence": 0.74,
+  "confidence": 0.66,
   "changed_files": [
     "frontend-file-summaries.txt",
     "frontend/DEPLOYMENT_CHECKLIST.md",
     "frontend/src/App.tsx",
     "frontend/src/components/CopyShareLinkControl.tsx",
-    "frontend/src/components/ValentinePrompt.tsx",
-    "frontend/src/config/publicSiteUrl.ts",
-    "frontend/src/utils/appMetadata.ts",
-    "frontend/src/utils/legacySlugGuard.ts",
+    "frontend/src/utils/adminTokenHashGuard.ts",
     "project_state.json"
   ]
 }

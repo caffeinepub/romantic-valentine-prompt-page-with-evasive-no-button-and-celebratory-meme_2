@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Ensure the app consistently shares the correct public URL (without the legacy `mahek` slug) by centralizing the share URL configuration, adding a reliable “Copy link” control, and syncing runtime metadata.
+**Goal:** Republish the latest build and prevent admin-token URLs from being shared or opening the Caffeine admin/dashboard screen for visitors.
 
 **Planned changes:**
-- Add a single public URL constant (e.g., `PUBLIC_SITE_URL`) in `frontend/src/config/publicSiteUrl.ts`, matching the URL in `frontend/index.html` (`https://npt-for-sunidhi.caffeine.xyz`), and update all share/link/metadata logic to use it.
-- Add a user-visible “Copy link” control on the main page that copies the configured public URL (not `window.location`), with an English error + selectable text fallback if clipboard access fails.
-- On app load, set `document.title`, `<link rel="canonical">`, and `<meta property="og:url">` to match the configured public URL (and branding title).
-- Remove any remaining frontend references that include `mahek`, and add a guardrail check by ensuring repository-wide search across `frontend/src` and `frontend/index.html` returns zero matches for `mahek`.
+- Add a frontend runtime guard that detects `#caffeineAdminToken=...` in `window.location.hash` and immediately replaces the URL with the canonical public URL (`PUBLIC_SITE_URL`, `https://npt-for-sunidhi.caffeine.xyz`) without requiring backend changes.
+- Update the share-link UX so the share action always copies `PUBLIC_SITE_URL` (not the current URL) and displays a clear warning not to share admin-token links.
+- Update `frontend/DEPLOYMENT_CHECKLIST.md` with a verification step to confirm the live/shareable URL has no `#caffeineAdminToken` fragment and renders app content.
 
-**User-visible outcome:** Users can copy/share a link from inside the app that always uses `https://npt-for-sunidhi.caffeine.xyz` and no longer shows the old `mahek` slug in shared URLs or link previews.
+**User-visible outcome:** Visitors who open an accidentally shared admin-token link are redirected to the clean public site URL, and the share UI guides users to copy/share only the canonical public link.
