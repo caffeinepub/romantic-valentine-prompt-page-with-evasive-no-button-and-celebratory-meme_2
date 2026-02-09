@@ -2,10 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-valentine-question-copy-in-the-main-prompt-ui-to-ask-sunidhi-by-name-in-english-using-exactly-will-you-be-my-valentine-sunidhi",
-      "featureTitle": "Update the Valentine question copy in the main prompt UI to ask Sunidhi by name in English using exactly: \"Will you be my Valentine, Sunidhi?\"",
+      "featureId": "feature-restore-re-publish-the-current-working-draft-build-version-6-to-the-production-live-canister-so-that-the-live-url-serves-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
+      "featureTitle": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
       "files": [
-        "frontend/src/components/ValentinePrompt.tsx"
+        "frontend/DEPLOYMENT_CHECKLIST.md",
+        "frontend/index.html",
+        "frontend/src/App.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -15,7 +17,27 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-9"
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-after-the-live-publish-completes-verify-the-production-html-metadata-matches-the-current-frontend-build-title-description-canonical-og-url-and-is-not-reverting-to-older-cached-content",
+      "featureTitle": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/App.tsx",
+        "frontend/src/utils/appMetadata.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
       ],
       "confidence": "high"
     }

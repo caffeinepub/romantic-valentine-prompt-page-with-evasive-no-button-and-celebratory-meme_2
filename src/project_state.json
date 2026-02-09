@@ -1,99 +1,32 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Interactive romantic-themed Valentine web page (HTML/CSS/JS) to ask Sunidhi to be the user's Valentine, with Yes/No buttons where No evasively moves on hover and Yes reveals a \"Good choice❤❤❤\" meme image; designed to run on iPad Chrome.",
-  "architectural_notes": [
-    "Implement as a self-contained HTML/CSS/JS page optimized for iPad Chrome.",
-    "UI behavior: 'No' button moves away on hover to prevent clicking; 'Yes' triggers display of a meme image with text \"Good choice❤❤❤\".",
-    "Use a pink/white romantic color scheme and simple single-purpose layout.",
-    "Copy/text update: ask \"Will you be my Valentine Sunidhi🌸?\" (replace prior name/text)."
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "Live site shows Caffeine placeholder ('Publish or restore your Caffeine app...') indicating the production/live publish did not complete or the live canister is empty; requires restoring/re-publishing live build."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-create-a-single-page-romantic-valentine-prompt-that-asks-will-you-be-my-valentine-sunidhi-and-presents-exactly-two-options-yes-and-no",
-      "title": "Create a single-page romantic Valentine prompt that asks: \"Will you be my Valentine, Sunidhi?\" and presents exactly two options: \"Yes\" and \"No\".",
+      "id": "feature-restore-re-publish-the-current-working-draft-build-version-6-to-the-production-live-canister-so-that-the-live-url-serves-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
+      "title": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-evasive-behavior-for-the-no-button-so-it-cannot-be-clicked-when-the-user-hovers-over-or-otherwise-points-at-no-it-moves-to-a-new-position-within-the-visible-viewport-staying-fully-on-screen-and-not-overlapping-the-yes-button",
-      "title": "Implement evasive behavior for the \"No\" button so it cannot be clicked: when the user hovers over or otherwise points at \"No\", it moves to a new position within the visible viewport, staying fully on-screen and not overlapping the \"Yes\" button.",
+      "id": "feature-after-the-live-publish-completes-verify-the-production-html-metadata-matches-the-current-frontend-build-title-description-canonical-og-url-and-is-not-reverting-to-older-cached-content",
+      "title": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
-    },
-    {
-      "id": "feature-when-the-user-clicks-taps-yes-replace-the-decision-ui-with-a-celebratory-view-that-shows-a-meme-image-containing-the-text-good-choice",
-      "title": "When the user clicks/taps \"Yes\", replace the decision UI with a celebratory view that shows a meme image containing the text \"Good choice❤❤❤\".",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-a-cohesive-romantic-visual-theme-using-a-pink-and-white-color-scheme-with-simple-clean-layout-and-responsive-sizing-optimized-for-ipad-chrome",
-      "title": "Apply a cohesive romantic visual theme using a pink and white color scheme, with simple, clean layout and responsive sizing optimized for iPad Chrome.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-the-required-generated-meme-image-to-the-frontend-as-a-static-asset-under-frontend-public-assets-generated-and-render-it-directly-from-the-frontend-no-backend-serving-or-dynamic-image-generation-at-runtime",
-      "title": "Add the required generated meme image to the frontend as a static asset under frontend/public/assets/generated and render it directly from the frontend (no backend serving or dynamic image generation at runtime).",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-valentine-question-text-to-address-mahek-by-name-asking-in-english-will-you-be-my-valentine-mahek",
-      "title": "Update the Valentine question text to address Mahek by name, asking in English: \"Will you be my Valentine, Mahek?\"",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-ensure-the-decision-ui-presents-exactly-two-options-labeled-yes-and-no-no-additional-words-or-emojis-in-the-button-labels",
-      "title": "Ensure the decision UI presents exactly two options labeled \"Yes\" and \"No\" (no additional words or emojis in the button labels).",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-when-the-user-clicks-taps-yes-display-celebratory-text-that-includes-the-exact-phrase-good-choice-and-show-the-existing-meme-image-from-the-frontend-static-assets",
-      "title": "When the user clicks/taps \"Yes\", display celebratory text that includes the exact phrase \"Good choice❤❤❤\" and show the existing meme image from the frontend static assets.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-valentine-question-copy-in-the-main-prompt-ui-to-ask-sunidhi-by-name-in-english-using-exactly-will-you-be-my-valentine-sunidhi",
-      "title": "Update the Valentine question copy in the main prompt UI to ask Sunidhi by name in English using exactly: \"Will you be my Valentine, Sunidhi?\"",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-3",
-      "summary": "Build a single-purpose interactive Valentine proposal webpage for Sunidhi with evasive 'No' button and 'Yes' click showing a 'Good choice❤❤❤' meme image; pink/white romantic theme; runnable on iPad Chrome.",
-      "reqIds": [],
-      "status": "pending"
-    }
-  ],
-  "gameProjectType": "none",
-  "projectName": "Romantic Valentine prompt page for Mahek with evasive No button and celebratory meme",
+  "new_feature_requests": [],
+  "projectName": "Restore production/live deployment so the live URL loads the app (not the Caffeine placeholder)",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

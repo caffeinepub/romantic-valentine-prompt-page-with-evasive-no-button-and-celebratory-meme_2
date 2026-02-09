@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
+import { BRANDING } from '@/config/branding';
 
 export default function ValentinePrompt() {
   const [answered, setAnswered] = useState(false);
@@ -82,7 +83,7 @@ export default function ValentinePrompt() {
       <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-700">
         <div className="text-center space-y-4">
           <h1 className="text-5xl md:text-7xl font-bold text-romantic-primary animate-in zoom-in duration-500">
-            Good choice❤❤❤
+            {BRANDING.successMessage}
           </h1>
         </div>
         <Card className="max-w-4xl w-full overflow-hidden shadow-2xl border-romantic-primary/20 bg-white/95 backdrop-blur">
@@ -111,7 +112,7 @@ export default function ValentinePrompt() {
             <Heart className="fill-romantic-accent text-romantic-accent" size={40} />
           </div>
           <CardTitle className="text-4xl md:text-5xl font-bold text-romantic-primary leading-tight">
-            Will you be my Valentine, Sunidhi?
+            {BRANDING.title}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-8 pb-12">

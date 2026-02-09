@@ -1,20 +1,56 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Restore Sunidhi name in Valentine prompt copy",
+  "title": "Restore live deployment UX and ensure production HTML metadata matches current Valentine build",
   "requirements": [
     {
-      "id": "REQ-9",
-      "summary": "Update the main Valentine prompt heading to ask Sunidhi by name using the exact required English sentence, ensuring the prior name is removed from the UI.",
+      "id": "REQ-1",
+      "summary": "Ensure the production build serves the Valentine React app shell correctly and is resilient to caching (no placeholder page, assets load on hard refresh).",
       "acceptanceCriteria": [
-        "The prompt heading text renders exactly as: \"Will you be my Valentine, Sunidhi?\"",
-        "The name \"Mahek\" does not appear anywhere in the UI"
+        "Opening the live/production URL loads the React app UI (Valentine prompt) rather than the Caffeine placeholder page.",
+        "A hard refresh (Ctrl/Cmd+Shift+R) on the live URL still loads the app UI.",
+        "The live site returns a successful HTTP response for the main document and loads JS/CSS assets without errors in the browser console."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ValentinePrompt.tsx",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Replace the CardTitle prompt copy text with exactly: \"Will you be my Valentine, Sunidhi?\" and ensure no other occurrences of \"Mahek\" remain in this UI. Preserve existing Yes/No interaction behavior and do not modify any files under frontend/src/components/ui."
+          "description": "Harden the app shell for production by adding cache-control meta tags and re-confirming the root div + module script are correct so browsers are less likely to reuse stale HTML that could show the placeholder instead of the built app."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a minimal, non-UI runtime sanity check (console-only) that confirms the app has mounted and logs current URL + canonical target; this helps verify the live canister is serving the actual React bundle and not the placeholder during production checks."
+        },
+        {
+          "path": "frontend/DEPLOYMENT_CHECKLIST.md",
+          "operation": "create",
+          "description": "Document the exact production verification steps for restoring Version 6 to live (what to check in Network tab, hard refresh behavior, asset loading, and what indicates the placeholder is still being served)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Ensure production HTML metadata (title/description/canonical/og:url) matches the current build and does not regress to older cached values.",
+      "acceptanceCriteria": [
+        "The live site HTML <title> contains “Will you be my Valentine, Sunidhi?” and does not contain “Mahek”.",
+        "The live site canonical and og:url values match the intended production URL and are not empty or pointing to a draft/old URL."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/appMetadata.ts",
+          "operation": "create",
+          "description": "Add a small utility that sets/repairs document title and key metadata tags at runtime (canonical, og:url, description, og:title/og:description) using the existing BRANDING and PUBLIC_SITE_URL values to prevent stale/older metadata from persisting after publish."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the new metadata sync utility into the existing mount flow (after the URL guard) so the live app reliably reflects the correct title and canonical/og:url values even if the initial HTML is cached."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Re-verify and align the static <title>, description, canonical, and og:url values with the current BRANDING/PUBLIC_SITE_URL so the server-rendered HTML is correct before React mounts."
         }
       ]
     }

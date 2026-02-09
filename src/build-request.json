@@ -1,36 +1,51 @@
 {
   "kind": "build_request",
-  "title": "Update Valentine prompt copy to ask Sunidhi (restore Sunidhi name)",
-  "priority": "normal",
+  "title": "Restore production/live deployment so the live URL loads the app (not the Caffeine placeholder)",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-9",
-      "text": "Update the Valentine question copy in the main prompt UI to ask Sunidhi by name in English using exactly: \"Will you be my Valentine, Sunidhi?\"",
-      "target": "frontend",
+      "id": "REQ-1",
+      "text": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+      "target": "unknown",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Create an interactive web page as a surprise for my girlfriend Sunidhi... to ask her to be my Valentine Sunidhi🌸."
+          "Restore the live app"
         ]
       },
       "acceptanceCriteria": [
-        "The prompt heading text renders exactly as: \"Will you be my Valentine, Sunidhi?\"",
-        "The name \"Mahek\" does not appear anywhere in the UI"
+        "Opening the live/production URL loads the React app UI (Valentine prompt) rather than the Caffeine placeholder page.",
+        "A hard refresh (Ctrl/Cmd+Shift+R) on the live URL still loads the app UI.",
+        "The live site returns a successful HTTP response for the main document and loads JS/CSS assets without errors in the browser console."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Restore the live app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The live site HTML <title> contains “Will you be my Valentine, Sunidhi?” and does not contain “Mahek”.",
+        "The live site canonical and og:url values match the intended production URL and are not empty or pointing to a draft/old URL."
       ]
     }
   ],
   "constraints": [
-    "Do not change any of the existing Yes/No interaction behavior (\"No\" must remain evasive on hover/pointer/touch; \"Yes\" must reveal the celebratory view).",
-    "Do not modify any files under frontend/src/components/ui (read-only).",
-    "Do not add any backend requirements; backend/main.mo should remain unused for this feature."
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything under frontend/src/components/ui (immutable paths).",
+    "Keep the backend as a single Motoko actor (no additional backend services)."
   ],
   "nonGoals": [
-    "Add additional buttons or choices beyond \"Yes\" and \"No\".",
-    "Change the \"Yes\" button label or add emojis/extra words to the \"Yes\"/\"No\" button labels.",
-    "Introduce login/authentication, persistence, or any Internet Identity flows for this page.",
-    "Generate new meme images or change the existing meme asset path unless explicitly requested."
+    "No new app features or UI redesign beyond what is required to restore the live deployment.",
+    "No changes to authentication behavior or Internet Identity integration."
   ],
   "imageRequirements": {
     "required": [],

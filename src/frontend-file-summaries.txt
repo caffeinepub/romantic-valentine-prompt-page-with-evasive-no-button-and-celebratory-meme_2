@@ -1,6 +1,11 @@
 {
-  "frontend/src/App.tsx": "Main application component that renders the ValentinePrompt component centered on the screen with full viewport height.",
-  "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine's Day proposal component for Sunidhi with evasive \"No\" button that repositions on hover/touch and celebratory meme reveal with \"Good choice❤❤❤\" text on \"Yes\" click, featuring collision detection to prevent button overlap.",
+  "frontend/src/App.tsx": "Main application component that renders the ValentinePrompt, includes URL guard for \"mahek\" redirects, syncs metadata at runtime, and logs production sanity checks to console.",
+  "frontend/src/components/ValentinePrompt.tsx": "Interactive Valentine's Day proposal component for Sunidhi with evasive \"No\" button and celebratory meme reveal, now using centralized branding configuration for all user-facing text.",
   "frontend/src/index.css": "Global styles with romantic pink and white OKLCH color theme, custom romantic color utilities, and gradient background optimized for Valentine's Day aesthetic.",
-  "frontend/tailwind.config.js": "Tailwind configuration extended with romantic-themed custom colors (romantic-primary, romantic-accent, romantic-muted) and increased border radius for softer appearance."
+  "frontend/tailwind.config.js": "Tailwind configuration extended with romantic-themed custom colors (romantic-primary, romantic-accent, romantic-muted) and increased border radius for softer appearance.",
+  "frontend/index.html": "HTML entry point with cache-control meta tags added to prevent stale HTML serving and canonical/og:url meta tags set to the correct Sunidhi URL.",
+  "frontend/src/config/branding.ts": "Centralized branding configuration containing all user-facing text (recipient name, title, description, success message) to ensure consistency and prevent accidental reintroduction of incorrect names.",
+  "frontend/src/config/publicSiteUrl.ts": "Public site URL configuration with helper functions to detect URLs containing \"mahek\" and redirect to the correct canonical URL.",
+  "frontend/src/utils/appMetadata.ts": "Runtime metadata synchronization utility that updates document title, canonical URL, and Open Graph tags to match current branding configuration, preventing stale cached metadata.",
+  "frontend/DEPLOYMENT_CHECKLIST.md": "Production deployment verification checklist documenting exact steps to verify Version 6 is live, common issues and solutions, and success criteria for the Valentine prompt deployment."
 }
