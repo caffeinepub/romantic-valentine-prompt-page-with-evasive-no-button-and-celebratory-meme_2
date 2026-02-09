@@ -2,11 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-resolve-the-production-live-publish-issue-so-the-live-url-loads-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
-      "featureTitle": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+      "featureId": "feature-create-a-single-page-romantic-valentine-prompt-that-asks-will-you-be-my-valentine-sunidhi-and-presents-exactly-two-options-labeled-yes-and-no-with-no-other-user-facing-actions-or-calls-to-action",
+      "featureTitle": "Create a single-page romantic Valentine prompt that asks: “Will you be my Valentine Sunidhi🌸” and presents exactly two options labeled “Yes” and “No”, with no other user-facing actions or calls-to-action.",
       "files": [
-        "frontend/DEPLOYMENT_CHECKLIST.md",
-        "frontend/index.html"
+        "frontend/index.html",
+        "frontend/src/components/ValentinePrompt.tsx",
+        "frontend/src/config/branding.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -21,12 +22,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-align-the-app-s-canonical-og-url-configuration-and-any-runtime-url-logging-with-the-actual-published-domain-shown-in-the-screenshot-https-npt-for-sunidhi-caffeine-xyz-so-metadata-and-production-checks-do-not-point-to-a-different-site-url",
-      "featureTitle": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
+      "featureId": "feature-make-the-no-option-effectively-unclickable-by-moving-it-away-when-the-user-attempts-to-interact-with-it-hover-on-desktop-touch-pointer-interactions-on-ipad-chrome-keeping-movement-smooth-and-constrained-within-the-prompt-area-so-it-stays-visible",
+      "featureTitle": "Make the “No” option effectively unclickable by moving it away when the user attempts to interact with it (hover on desktop; touch/pointer interactions on iPad Chrome), keeping movement smooth and constrained within the prompt area so it stays visible.",
       "files": [
-        "frontend/index.html",
-        "frontend/src/App.tsx",
-        "frontend/src/config/publicSiteUrl.ts"
+        "frontend/src/components/ValentinePrompt.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -41,11 +40,11 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-an-in-app-user-visible-app-loaded-status-indicator-non-intrusive-so-the-user-can-distinguish-between-a-failed-publish-placeholder-page-and-a-successfully-mounted-app-without-opening-devtools",
-      "featureTitle": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+      "featureId": "feature-when-the-user-clicks-yes-replace-the-prompt-with-a-success-view-that-displays-the-exact-text-good-choice-and-shows-a-meme-image",
+      "featureTitle": "When the user clicks “Yes”, replace the prompt with a success view that displays the exact text “Good choice❤❤❤” and shows a meme image.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/AppLoadedIndicator.tsx"
+        "frontend/src/components/ValentinePrompt.tsx",
+        "frontend/src/config/branding.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -56,6 +55,61 @@
       ],
       "testIds": [
         "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-simple-romantic-theme-using-a-pink-and-white-color-scheme-and-ensure-the-layout-is-responsive-and-touch-friendly-for-ipad-chrome-readable-typography-large-tap-targets-no-horizontal-overflow",
+      "featureTitle": "Apply a simple romantic theme using a pink and white color scheme and ensure the layout is responsive and touch-friendly for iPad Chrome (readable typography, large tap targets, no horizontal overflow).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-keep-the-experience-fully-frontend-only-static-interactive-page-behavior-with-no-backend-dependency-the-motoko-backend-actor-must-remain-unused",
+      "featureTitle": "Keep the experience fully frontend-only (static interactive page behavior) with no backend dependency; the Motoko backend actor must remain unused.",
+      "files": [
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-the-required-generated-meme-image-as-a-static-asset-and-render-it-from-the-frontend-do-not-fetch-it-via-the-backend",
+      "featureTitle": "Add the required generated meme image as a static asset and render it from the frontend (do not fetch it via the backend).",
+      "files": [
+        "frontend/src/components/ValentinePrompt.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
       ],
       "confidence": "high"
     }

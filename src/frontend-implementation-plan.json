@@ -1,79 +1,133 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Fix live URL placeholder risk, align canonical URL to published domain, and add in-app load indicator",
+  "title": "Romantic Valentine surprise page for Sunidhi with evasive No button and meme reveal",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Harden the shipped frontend so the live URL serves the Valentine UI reliably (correct HTML entry, correct asset references, and updated deployment verification steps).",
+      "summary": "Ensure the single-page prompt asks exactly “Will you be my Valentine Sunidhi🌸” and shows only “Yes” and “No” as interactive choices.",
       "acceptanceCriteria": [
-        "Opening the live URL in an incognito/private window renders the Valentine UI (card with “Will you be my Valentine, Sunidhi? 💕”) and not the Caffeine placeholder.",
-        "Hard refresh (Ctrl/Cmd+Shift+R) still shows the Valentine UI.",
-        "The main document returns HTTP 200 and the JS/CSS bundles load without 404s (verified in DevTools Network tab)."
+        "On initial load, the only interactive choices visible to the user are buttons labeled “Yes” and “No”.",
+        "The displayed prompt text includes “Sunidhi🌸” as specified."
       ],
       "file_operations": [
         {
-          "path": "frontend/index.html",
+          "path": "frontend/src/config/branding.ts",
           "operation": "modify",
-          "description": "Ensure the production HTML entry is aligned with the published domain and remains a valid SPA entry (root mount + module script), minimizing chances of stale/wrong published HTML causing the placeholder experience."
+          "description": "Update the prompt/title string to exactly “Will you be my Valentine Sunidhi🌸” (verbatim), keeping user-facing text centralized."
         },
         {
-          "path": "frontend/DEPLOYMENT_CHECKLIST.md",
+          "path": "frontend/src/components/ValentinePrompt.tsx",
           "operation": "modify",
-          "description": "Update the live URL and verification steps to reference the published domain (https://npt-for-sunidhi.caffeine.xyz) and include explicit checks for HTML 200 + bundle 200s to quickly diagnose placeholder vs real app loads."
+          "description": "Ensure the prompt view renders only the required question and exactly two interactive buttons labeled “Yes” and “No” (no additional CTAs). Use shadcn-ui Button/Card for consistent tap targets and layout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Align the initial HTML title/metadata to the updated prompt wording so the first paint matches the exact required question text."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Align canonical/OG URL configuration and production URL sanity logging to the published domain https://npt-for-sunidhi.caffeine.xyz.",
+      "summary": "Make the “No” button evasive and effectively unclickable across desktop hover and iPad Chrome touch/pointer interactions while staying smoothly within the visible prompt container.",
       "acceptanceCriteria": [
-        "frontend/src/config/publicSiteUrl.ts PUBLIC_SITE_URL is updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
-        "frontend/index.html <link rel=\"canonical\"> and <meta property=\"og:url\"> are updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
-        "frontend/src/App.tsx production console log for “Expected canonical” matches https://npt-for-sunidhi.caffeine.xyz.",
-        "After deployment, View Page Source on the live site shows canonical/og:url set to https://npt-for-sunidhi.caffeine.xyz."
+        "Hovering over “No” on desktop causes it to reposition away from the cursor within the prompt container.",
+        "Attempting to press “No” on iPad Chrome (touch/pointer down) causes it to move away and prevents a click from registering.",
+        "The “No” button never moves outside the visible bounds of the prompt container."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/config/publicSiteUrl.ts",
+          "path": "frontend/src/components/ValentinePrompt.tsx",
           "operation": "modify",
-          "description": "Update PUBLIC_SITE_URL constant to exactly https://npt-for-sunidhi.caffeine.xyz so runtime metadata sync and any redirects share the correct canonical domain."
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Update <link rel=\"canonical\"> and <meta property=\"og:url\"> to exactly https://npt-for-sunidhi.caffeine.xyz so page source metadata matches the published domain."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Update the production sanity log for “Expected canonical” to use the same value as PUBLIC_SITE_URL (and therefore match https://npt-for-sunidhi.caffeine.xyz)."
+          "description": "Refine the No-button reposition logic to (1) respond to desktop hover and iPad pointer/touch-down attempts, (2) keep motion smooth, and (3) clamp the computed coordinates so the button remains fully visible inside the prompt container at all times. Use shadcn-ui Button for the No control. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Add a small, non-intrusive in-app “App loaded” indicator (with build timestamp/version string) that appears only when the React app mounts.",
+      "summary": "On “Yes” click, replace the prompt with a success view showing the exact text “Good choice❤❤❤” and the meme image.",
       "acceptanceCriteria": [
-        "When the React app mounts, a small text indicator appears (e.g., in a corner or footer) saying “App loaded” (English) and includes a build timestamp or version string.",
-        "The indicator is visible on mobile screens and does not block interaction with the Valentine prompt buttons.",
-        "The indicator is present only when the actual app is served (i.e., it naturally will not appear on the Caffeine placeholder page)."
+        "Clicking “Yes” transitions to a new view/state where the prompt/buttons are no longer shown.",
+        "The success view renders the exact message: “Good choice❤❤❤”.",
+        "The success view displays the meme image below/alongside the message."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/AppLoadedIndicator.tsx",
-          "operation": "create",
-          "description": "Create a lightweight indicator component that renders fixed-position, non-interactive text: “App loaded” plus a build timestamp/version string (computed once per build/module load) and is visually unobtrusive on mobile."
+          "path": "frontend/src/config/branding.ts",
+          "operation": "modify",
+          "description": "Confirm/lock the success message string to exactly “Good choice❤❤❤” (verbatim) so the rendered text matches the requirement."
+        },
+        {
+          "path": "frontend/src/components/ValentinePrompt.tsx",
+          "operation": "modify",
+          "description": "Implement/verify the success state that fully replaces the prompt/buttons and renders the exact success message plus the meme image. Use shadcn-ui Card to frame the success content. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Apply a simple romantic pink/white theme with responsive, touch-friendly layout (iPad Chrome) and no horizontal overflow.",
+      "acceptanceCriteria": [
+        "Primary UI elements use a pink/white romantic palette.",
+        "Buttons are comfortably tappable on iPad (no cramped spacing).",
+        "No horizontal scrolling is required on iPad-sized viewports."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/index.css",
+          "operation": "modify",
+          "description": "Verify/adjust global theme tokens and base styles to maintain a pink/white romantic palette and prevent horizontal overflow issues in common tablet viewports."
+        },
+        {
+          "path": "frontend/src/components/ValentinePrompt.tsx",
+          "operation": "modify",
+          "description": "Tune layout spacing/typography and button sizing to be readable and easily tappable on iPad, ensuring content remains within the viewport without horizontal scrolling. Use shadcn-ui Button/Card for consistent sizing. Verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Wire the new AppLoadedIndicator component into the root UI so it renders after the app mounts without affecting the Valentine prompt interactions."
+          "description": "Ensure the page-level container enforces a responsive centered layout and guards against horizontal overflow across iPad-sized viewports."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Keep the Valentine interaction fully frontend-only with no backend calls or dependency on backend state.",
+      "acceptanceCriteria": [
+        "The Valentine interaction works without any backend calls.",
+        "The backend canister does not store or require any state for the Valentine flow."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Remove/avoid wrapping the app in providers that initialize authentication/actor infrastructure for this single-page experience, keeping runtime strictly frontend-only."
         },
         {
-          "path": "frontend/index.css",
+          "path": "frontend/src/components/ValentinePrompt.tsx",
           "operation": "modify",
-          "description": "Add/adjust minimal global utility styling as needed to keep the indicator readable and unobtrusive across light/dark themes without interfering with existing Valentine theme styling."
+          "description": "Confirm the interaction logic is entirely local state (no imports/usages of backend actor hooks or network calls) and remains functional offline/without backend connectivity."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add the generated meme image as a static frontend asset and render it directly (no backend fetch).",
+      "acceptanceCriteria": [
+        "The meme image file exists under frontend/public/assets/generated/ with the exact required filename.",
+        "The success view loads the meme image successfully in a production build."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add the generated static meme asset at the exact required path: frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png."
+        },
+        {
+          "path": "frontend/src/components/ValentinePrompt.tsx",
+          "operation": "modify",
+          "description": "Wire the success view image to load from the static asset path frontend/public/assets/generated/valentine-good-choice-meme.dim_1200x800.png (no backend fetch). Use shadcn-ui Card to present the image cleanly. Verify the component's usage instructions before implementing."
         }
       ]
     }

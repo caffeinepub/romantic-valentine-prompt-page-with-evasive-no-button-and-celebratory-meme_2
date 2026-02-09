@@ -1,77 +1,137 @@
 {
   "kind": "build_request",
-  "title": "Fix live URL showing Caffeine placeholder and align canonical URL with the published domain",
-  "priority": "high",
+  "title": "Rebuild romantic Valentine surprise page for Sunidhi with evasive No button and meme reveal",
+  "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
-      "target": "unknown",
+      "text": "Create a single-page romantic Valentine prompt that asks: “Will you be my Valentine Sunidhi🌸” and presents exactly two options labeled “Yes” and “No”, with no other user-facing actions or calls-to-action.",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-1"
         ],
         "quotes": [
-          "Again same problem?"
+          "Create an interactive web page as a surprise for my girlfriend Sunidhi🌸... ask her to be my Valentine Sunidhi🌸. There should be two options: Yes or No."
         ]
       },
       "acceptanceCriteria": [
-        "Opening the live URL in an incognito/private window renders the Valentine UI (card with “Will you be my Valentine, Sunidhi? 💕”) and not the Caffeine placeholder.",
-        "Hard refresh (Ctrl/Cmd+Shift+R) still shows the Valentine UI.",
-        "The main document returns HTTP 200 and the JS/CSS bundles load without 404s (verified in DevTools Network tab)."
+        "On initial load, the only interactive choices visible to the user are buttons labeled “Yes” and “No”.",
+        "The displayed prompt text includes “Sunidhi🌸” as specified."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
+      "text": "Make the “No” option effectively unclickable by moving it away when the user attempts to interact with it (hover on desktop; touch/pointer interactions on iPad Chrome), keeping movement smooth and constrained within the prompt area so it stays visible.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-1"
         ],
         "quotes": [
-          "Again same problem?"
+          "When she hovers her cursor over No, it should move away so she cannot click it, forcing her to click only on Yes."
         ]
       },
       "acceptanceCriteria": [
-        "frontend/src/config/publicSiteUrl.ts PUBLIC_SITE_URL is updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
-        "frontend/index.html <link rel=\"canonical\"> and <meta property=\"og:url\"> are updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
-        "frontend/src/App.tsx production console log for “Expected canonical” matches https://npt-for-sunidhi.caffeine.xyz.",
-        "After deployment, View Page Source on the live site shows canonical/og:url set to https://npt-for-sunidhi.caffeine.xyz."
+        "Hovering over “No” on desktop causes it to reposition away from the cursor within the prompt container.",
+        "Attempting to press “No” on iPad Chrome (touch/pointer down) causes it to move away and prevents a click from registering.",
+        "The “No” button never moves outside the visible bounds of the prompt container."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+      "text": "When the user clicks “Yes”, replace the prompt with a success view that displays the exact text “Good choice❤❤❤” and shows a meme image.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3",
-          "msg-6"
+          "msg-1"
         ],
         "quotes": [
-          "If you want, we can add a simple status indicator to confirm when the app is loading.",
-          "Again same problem?"
+          "When she clicks Yes, show her a meme image telling her \"Good choice❤❤❤\"."
         ]
       },
       "acceptanceCriteria": [
-        "When the React app mounts, a small text indicator appears (e.g., in a corner or footer) saying “App loaded” (English) and includes a build timestamp or version string.",
-        "The indicator is visible on mobile screens and does not block interaction with the Valentine prompt buttons.",
-        "The indicator is present only when the actual app is served (i.e., it naturally will not appear on the Caffeine placeholder page)."
+        "Clicking “Yes” transitions to a new view/state where the prompt/buttons are no longer shown.",
+        "The success view renders the exact message: “Good choice❤❤❤”.",
+        "The success view displays the meme image below/alongside the message."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Apply a simple romantic theme using a pink and white color scheme and ensure the layout is responsive and touch-friendly for iPad Chrome (readable typography, large tap targets, no horizontal overflow).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "The page should be themed romantically with a pink and white color scheme and be fully interactive... run it on my iPad using Chrome."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Primary UI elements use a pink/white romantic palette.",
+        "Buttons are comfortably tappable on iPad (no cramped spacing).",
+        "No horizontal scrolling is required on iPad-sized viewports."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Keep the experience fully frontend-only (static interactive page behavior) with no backend dependency; the Motoko backend actor must remain unused.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "...fully interactive using HTML, CSS, and JavaScript..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Valentine interaction works without any backend calls.",
+        "The backend canister does not store or require any state for the Valentine flow."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add the required generated meme image as a static asset and render it from the frontend (do not fetch it via the backend).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "show her a meme image telling her \"Good choice❤❤❤\"."
+        ]
+      },
+      "acceptanceCriteria": [
+        "The meme image file exists under frontend/public/assets/generated/ with the exact required filename.",
+        "The success view loads the meme image successfully in a production build."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (read-only components must be composed, not modified).",
-    "Do not edit immutable hook files: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx."
+    "Do not edit any files under frontend/src/components/ui or other paths listed as immutable in SYSTEM_CONTEXT.",
+    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services or databases).",
+    "Use English for any user-facing text in the build request."
   ],
   "nonGoals": [
-    "Adding new authentication providers beyond Internet Identity.",
-    "Adding a database or external backend services.",
-    "Changing the Valentine prompt interaction logic (evasive “No” button, success screen) unless required to implement the status indicator."
+    "Fixing or troubleshooting the Caffeine “Going live…” deployment UI/loading issue shown in the uploaded screenshot.",
+    "Adding authentication, user accounts, persistence, analytics, or any multi-page navigation."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Meme-style romantic image with the words “Good choice❤❤❤” (valentine-good-choice-meme.dim_1200x800.png)"
+    ],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

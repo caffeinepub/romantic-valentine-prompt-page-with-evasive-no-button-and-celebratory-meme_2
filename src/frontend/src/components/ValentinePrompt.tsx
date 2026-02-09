@@ -80,13 +80,13 @@ export default function ValentinePrompt() {
 
   if (answered) {
     return (
-      <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-700">
+      <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-700 w-full max-w-4xl px-4">
         <div className="text-center space-y-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-romantic-primary animate-in zoom-in duration-500">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-romantic-primary animate-in zoom-in duration-500">
             {BRANDING.successMessage}
           </h1>
         </div>
-        <Card className="max-w-4xl w-full overflow-hidden shadow-2xl border-romantic-primary/20 bg-white/95 backdrop-blur">
+        <Card className="w-full overflow-hidden shadow-2xl border-romantic-primary/20 bg-white/95 backdrop-blur">
           <CardContent className="p-0">
             <img
               src="/assets/generated/valentine-good-choice-meme.dim_1200x800.png"
@@ -111,17 +111,17 @@ export default function ValentinePrompt() {
             <Heart className="fill-romantic-primary text-romantic-primary" size={48} />
             <Heart className="fill-romantic-accent text-romantic-accent" size={40} />
           </div>
-          <CardTitle className="text-4xl md:text-5xl font-bold text-romantic-primary leading-tight">
+          <CardTitle className="text-3xl sm:text-4xl md:text-5xl font-bold text-romantic-primary leading-tight px-4">
             {BRANDING.title}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-8 pb-12">
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center px-4">
             <Button
               ref={yesButtonRef}
               onClick={handleYesClick}
               size="lg"
-              className="text-2xl px-12 py-8 h-auto font-bold bg-romantic-primary hover:bg-romantic-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto font-bold bg-romantic-primary hover:bg-romantic-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 min-w-[140px] touch-manipulation"
             >
               Yes
             </Button>
@@ -132,14 +132,14 @@ export default function ValentinePrompt() {
               onTouchStart={handleNoTouchStart}
               size="lg"
               variant="outline"
-              className="text-2xl px-12 py-8 h-auto font-bold border-romantic-muted text-romantic-muted hover:bg-romantic-muted/10 shadow-lg transition-all duration-300"
+              className="text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto font-bold border-romantic-muted text-romantic-muted hover:bg-romantic-muted/10 shadow-lg min-w-[140px] touch-manipulation"
               style={
                 noButtonPosition.top !== 0 || noButtonPosition.left !== 0
                   ? {
                       position: 'absolute',
                       top: `${noButtonPosition.top}px`,
                       left: `${noButtonPosition.left}px`,
-                      transition: 'none',
+                      transition: 'top 0.3s ease-out, left 0.3s ease-out',
                     }
                   : undefined
               }

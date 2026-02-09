@@ -1,40 +1,75 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
-  "architectural_notes": [],
-  "known_issues": [
-    "User reports the same issue persists after deploying Version 7 (likely the preview/production link not opening or loading correctly)."
+  "summary": "Interactive romantic Valentine web page (pink/white theme) that asks Sunidhi to be the user's Valentine with Yes/No buttons; No evasively moves away and clicking Yes shows a 'Good choice' meme image; must run in Chrome on iPad.",
+  "architectural_notes": [
+    "Target platform: single-page HTML/CSS/JS experience intended to run locally/in Chrome on iPad.",
+    "UI behavior requirement: two options (Yes/No) with No button evasive (moves away) and Yes triggers displaying a meme image with text 'Good choice❤❤❤'.",
+    "Visual requirement: romantic pink/white color scheme."
   ],
+  "known_issues": [],
   "isFixRequest": true,
+  "imageRequirements": "## Required Images\n- Meme-style romantic image with the words “Good choice❤❤❤” (valentine-good-choice-meme.dim_1200x800.png)",
   "existing_features": [
     {
-      "id": "feature-resolve-the-production-live-publish-issue-so-the-live-url-loads-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
-      "title": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+      "id": "feature-create-a-single-page-romantic-valentine-prompt-that-asks-will-you-be-my-valentine-sunidhi-and-presents-exactly-two-options-labeled-yes-and-no-with-no-other-user-facing-actions-or-calls-to-action",
+      "title": "Create a single-page romantic Valentine prompt that asks: “Will you be my Valentine Sunidhi🌸” and presents exactly two options labeled “Yes” and “No”, with no other user-facing actions or calls-to-action.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-align-the-app-s-canonical-og-url-configuration-and-any-runtime-url-logging-with-the-actual-published-domain-shown-in-the-screenshot-https-npt-for-sunidhi-caffeine-xyz-so-metadata-and-production-checks-do-not-point-to-a-different-site-url",
-      "title": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
+      "id": "feature-make-the-no-option-effectively-unclickable-by-moving-it-away-when-the-user-attempts-to-interact-with-it-hover-on-desktop-touch-pointer-interactions-on-ipad-chrome-keeping-movement-smooth-and-constrained-within-the-prompt-area-so-it-stays-visible",
+      "title": "Make the “No” option effectively unclickable by moving it away when the user attempts to interact with it (hover on desktop; touch/pointer interactions on iPad Chrome), keeping movement smooth and constrained within the prompt area so it stays visible.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-an-in-app-user-visible-app-loaded-status-indicator-non-intrusive-so-the-user-can-distinguish-between-a-failed-publish-placeholder-page-and-a-successfully-mounted-app-without-opening-devtools",
-      "title": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+      "id": "feature-when-the-user-clicks-yes-replace-the-prompt-with-a-success-view-that-displays-the-exact-text-good-choice-and-shows-a-meme-image",
+      "title": "When the user clicks “Yes”, replace the prompt with a success view that displays the exact text “Good choice❤❤❤” and shows a meme image.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-apply-a-simple-romantic-theme-using-a-pink-and-white-color-scheme-and-ensure-the-layout-is-responsive-and-touch-friendly-for-ipad-chrome-readable-typography-large-tap-targets-no-horizontal-overflow",
+      "title": "Apply a simple romantic theme using a pink and white color scheme and ensure the layout is responsive and touch-friendly for iPad Chrome (readable typography, large tap targets, no horizontal overflow).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-the-experience-fully-frontend-only-static-interactive-page-behavior-with-no-backend-dependency-the-motoko-backend-actor-must-remain-unused",
+      "title": "Keep the experience fully frontend-only (static interactive page behavior) with no backend dependency; the Motoko backend actor must remain unused.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-required-generated-meme-image-as-a-static-asset-and-render-it-from-the-frontend-do-not-fetch-it-via-the-backend",
+      "title": "Add the required generated meme image as a static asset and render it from the frontend (do not fetch it via the backend).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
     }
   ],
-  "new_feature_requests": [],
-  "projectName": "Fix live URL showing Caffeine placeholder and align canonical URL with the published domain",
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a simple romantic-themed interactive Valentine webpage for Sunidhi with Yes/No where No moves away on hover and Yes shows a 'Good choice❤❤❤' meme image; runnable on iPad Chrome using HTML/CSS/JS",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Rebuild romantic Valentine surprise page for Sunidhi with evasive No button and meme reveal",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }
