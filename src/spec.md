@@ -1,11 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Restore the production/live deployment so the live URL serves the Valentine React app (Version 6) instead of the Caffeine placeholder page.
+**Goal:** Ensure the published/live URL serves the Valentine app (not the Caffeine placeholder), and make the app’s canonical/OG URL match the actual published domain.
 
 **Planned changes:**
-- Re-publish/restore the current working draft build (Version 6) to the production/live canister.
-- Verify the live URL loads the app UI and its JS/CSS assets without errors (including after a hard refresh).
-- Verify production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not showing older/cached content.
+- Fix the production/live publish configuration so https://npt-for-sunidhi.caffeine.xyz returns the Valentine app UI and loads all JS/CSS assets successfully (no 404s).
+- Update canonical/OG URL configuration to exactly https://npt-for-sunidhi.caffeine.xyz (PUBLIC_SITE_URL, `<link rel="canonical">`, `<meta property="og:url">`, and any production “Expected canonical” logging).
+- Add a small, non-intrusive in-app “App loaded” indicator that appears when the React app mounts and includes a build timestamp/version.
 
-**User-visible outcome:** Visiting the live/production URL loads the Valentine prompt React app (not the Caffeine placeholder), and the page metadata reflects the current production content.
+**User-visible outcome:** Opening the live site in an incognito/private window reliably shows the Valentine prompt UI (not the publish/restore placeholder), and a small “App loaded” status text confirms the app is actually running.

@@ -1,56 +1,79 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Restore live deployment UX and ensure production HTML metadata matches current Valentine build",
+  "title": "Fix live URL placeholder risk, align canonical URL to published domain, and add in-app load indicator",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Ensure the production build serves the Valentine React app shell correctly and is resilient to caching (no placeholder page, assets load on hard refresh).",
+      "summary": "Harden the shipped frontend so the live URL serves the Valentine UI reliably (correct HTML entry, correct asset references, and updated deployment verification steps).",
       "acceptanceCriteria": [
-        "Opening the live/production URL loads the React app UI (Valentine prompt) rather than the Caffeine placeholder page.",
-        "A hard refresh (Ctrl/Cmd+Shift+R) on the live URL still loads the app UI.",
-        "The live site returns a successful HTTP response for the main document and loads JS/CSS assets without errors in the browser console."
+        "Opening the live URL in an incognito/private window renders the Valentine UI (card with “Will you be my Valentine, Sunidhi? 💕”) and not the Caffeine placeholder.",
+        "Hard refresh (Ctrl/Cmd+Shift+R) still shows the Valentine UI.",
+        "The main document returns HTTP 200 and the JS/CSS bundles load without 404s (verified in DevTools Network tab)."
       ],
       "file_operations": [
         {
           "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Harden the app shell for production by adding cache-control meta tags and re-confirming the root div + module script are correct so browsers are less likely to reuse stale HTML that could show the placeholder instead of the built app."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Add a minimal, non-UI runtime sanity check (console-only) that confirms the app has mounted and logs current URL + canonical target; this helps verify the live canister is serving the actual React bundle and not the placeholder during production checks."
+          "description": "Ensure the production HTML entry is aligned with the published domain and remains a valid SPA entry (root mount + module script), minimizing chances of stale/wrong published HTML causing the placeholder experience."
         },
         {
           "path": "frontend/DEPLOYMENT_CHECKLIST.md",
-          "operation": "create",
-          "description": "Document the exact production verification steps for restoring Version 6 to live (what to check in Network tab, hard refresh behavior, asset loading, and what indicates the placeholder is still being served)."
+          "operation": "modify",
+          "description": "Update the live URL and verification steps to reference the published domain (https://npt-for-sunidhi.caffeine.xyz) and include explicit checks for HTML 200 + bundle 200s to quickly diagnose placeholder vs real app loads."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Ensure production HTML metadata (title/description/canonical/og:url) matches the current build and does not regress to older cached values.",
+      "summary": "Align canonical/OG URL configuration and production URL sanity logging to the published domain https://npt-for-sunidhi.caffeine.xyz.",
       "acceptanceCriteria": [
-        "The live site HTML <title> contains “Will you be my Valentine, Sunidhi?” and does not contain “Mahek”.",
-        "The live site canonical and og:url values match the intended production URL and are not empty or pointing to a draft/old URL."
+        "frontend/src/config/publicSiteUrl.ts PUBLIC_SITE_URL is updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
+        "frontend/index.html <link rel=\"canonical\"> and <meta property=\"og:url\"> are updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
+        "frontend/src/App.tsx production console log for “Expected canonical” matches https://npt-for-sunidhi.caffeine.xyz.",
+        "After deployment, View Page Source on the live site shows canonical/og:url set to https://npt-for-sunidhi.caffeine.xyz."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/appMetadata.ts",
-          "operation": "create",
-          "description": "Add a small utility that sets/repairs document title and key metadata tags at runtime (canonical, og:url, description, og:title/og:description) using the existing BRANDING and PUBLIC_SITE_URL values to prevent stale/older metadata from persisting after publish."
-        },
-        {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/config/publicSiteUrl.ts",
           "operation": "modify",
-          "description": "Wire the new metadata sync utility into the existing mount flow (after the URL guard) so the live app reliably reflects the correct title and canonical/og:url values even if the initial HTML is cached."
+          "description": "Update PUBLIC_SITE_URL constant to exactly https://npt-for-sunidhi.caffeine.xyz so runtime metadata sync and any redirects share the correct canonical domain."
         },
         {
           "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Re-verify and align the static <title>, description, canonical, and og:url values with the current BRANDING/PUBLIC_SITE_URL so the server-rendered HTML is correct before React mounts."
+          "description": "Update <link rel=\"canonical\"> and <meta property=\"og:url\"> to exactly https://npt-for-sunidhi.caffeine.xyz so page source metadata matches the published domain."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Update the production sanity log for “Expected canonical” to use the same value as PUBLIC_SITE_URL (and therefore match https://npt-for-sunidhi.caffeine.xyz)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add a small, non-intrusive in-app “App loaded” indicator (with build timestamp/version string) that appears only when the React app mounts.",
+      "acceptanceCriteria": [
+        "When the React app mounts, a small text indicator appears (e.g., in a corner or footer) saying “App loaded” (English) and includes a build timestamp or version string.",
+        "The indicator is visible on mobile screens and does not block interaction with the Valentine prompt buttons.",
+        "The indicator is present only when the actual app is served (i.e., it naturally will not appear on the Caffeine placeholder page)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/AppLoadedIndicator.tsx",
+          "operation": "create",
+          "description": "Create a lightweight indicator component that renders fixed-position, non-interactive text: “App loaded” plus a build timestamp/version string (computed once per build/module load) and is visually unobtrusive on mobile."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the new AppLoadedIndicator component into the root UI so it renders after the app mounts without affecting the Valentine prompt interactions."
+        },
+        {
+          "path": "frontend/index.css",
+          "operation": "modify",
+          "description": "Add/adjust minimal global utility styling as needed to keep the indicator readable and unobtrusive across light/dark themes without interfering with existing Valentine theme styling."
         }
       ]
     }

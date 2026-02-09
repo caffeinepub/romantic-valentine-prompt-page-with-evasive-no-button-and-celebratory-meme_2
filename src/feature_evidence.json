@@ -2,12 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-restore-re-publish-the-current-working-draft-build-version-6-to-the-production-live-canister-so-that-the-live-url-serves-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
-      "featureTitle": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+      "featureId": "feature-resolve-the-production-live-publish-issue-so-the-live-url-loads-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
+      "featureTitle": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
       "files": [
         "frontend/DEPLOYMENT_CHECKLIST.md",
-        "frontend/index.html",
-        "frontend/src/App.tsx"
+        "frontend/index.html"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -22,12 +21,12 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-after-the-live-publish-completes-verify-the-production-html-metadata-matches-the-current-frontend-build-title-description-canonical-og-url-and-is-not-reverting-to-older-cached-content",
-      "featureTitle": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
+      "featureId": "feature-align-the-app-s-canonical-og-url-configuration-and-any-runtime-url-logging-with-the-actual-published-domain-shown-in-the-screenshot-https-npt-for-sunidhi-caffeine-xyz-so-metadata-and-production-checks-do-not-point-to-a-different-site-url",
+      "featureTitle": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
       "files": [
         "frontend/index.html",
         "frontend/src/App.tsx",
-        "frontend/src/utils/appMetadata.ts"
+        "frontend/src/config/publicSiteUrl.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -38,6 +37,25 @@
       ],
       "testIds": [
         "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-in-app-user-visible-app-loaded-status-indicator-non-intrusive-so-the-user-can-distinguish-between-a-failed-publish-placeholder-page-and-a-successfully-mounted-app-without-opening-devtools",
+      "featureTitle": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppLoadedIndicator.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
       ],
       "confidence": "high"
     }

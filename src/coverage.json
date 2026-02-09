@@ -1,43 +1,55 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T13:10:09.962Z",
+  "generatedAt": "2026-02-09T13:17:23.007Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+        "summary": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
         "status": "implemented",
         "plannedFiles": [
           "frontend/index.html",
-          "frontend/src/App.tsx",
           "frontend/DEPLOYMENT_CHECKLIST.md"
         ],
         "matchedFiles": [
           "frontend/index.html",
-          "frontend/src/App.tsx",
           "frontend/DEPLOYMENT_CHECKLIST.md"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
+        "summary": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/appMetadata.ts",
-          "frontend/src/App.tsx",
-          "frontend/index.html"
+          "frontend/src/config/publicSiteUrl.ts",
+          "frontend/index.html",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/utils/appMetadata.ts",
+          "frontend/src/config/publicSiteUrl.ts",
+          "frontend/index.html",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/AppLoadedIndicator.tsx",
           "frontend/src/App.tsx",
-          "frontend/index.html"
+          "frontend/index.css"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/AppLoadedIndicator.tsx",
+          "frontend/src/App.tsx"
         ]
       }
     ]
@@ -50,7 +62,8 @@
     "frontend/DEPLOYMENT_CHECKLIST.md",
     "frontend/index.html",
     "frontend/src/App.tsx",
-    "frontend/src/utils/appMetadata.ts",
+    "frontend/src/components/AppLoadedIndicator.tsx",
+    "frontend/src/config/publicSiteUrl.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

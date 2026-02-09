@@ -1,49 +1,63 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T13:10:09.960Z",
-  "summary": "Diff updates frontend HTML metadata and adds runtime metadata synchronization plus a URL redirect guard and a deployment checklist, but it does not show any changes that actually restore/re-publish the build to the production/live canister (which is the core of REQ-1).",
+  "generatedAt": "2026-02-09T13:17:23.005Z",
+  "summary": "REQ-2 (canonical/OG URL alignment + production log) and REQ-3 (visible “App loaded” indicator with version/timestamp) appear implemented. REQ-1 (fixing the live publish/placeholder issue so the production URL serves the app with 200 + bundles loading) cannot be confirmed from the code-only diff and looks unaddressed at the deployment/routing level.",
   "missing_requirements": [
     {
       "id": "REQ-1",
-      "requirement": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen.",
-      "reason": "The diff only shows frontend source/HTML changes and documentation; there is no evidence of any deployment/publish action or configuration that would restore the production/live canister contents so the live URL serves the app instead of the Caffeine placeholder.",
+      "requirement": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen, including hard refresh and ensuring HTML 200 + JS/CSS bundles load without 404s.",
+      "reason": "The diff shows frontend/UI changes (cache-control meta tags, metadata sync, redirect guard, indicator), but no evidence of changes to hosting/publish configuration, routing, build output, or platform settings that would prevent the Caffeine placeholder from appearing or guarantee 200 responses and bundle availability in production.",
       "evidence": [
-        "frontend/DEPLOYMENT_CHECKLIST.md",
         "frontend/index.html",
-        "frontend/src/App.tsx"
+        "frontend/src/App.tsx",
+        "frontend/DEPLOYMENT_CHECKLIST.md"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Runtime metadata synchronization that mutates document title/meta/link tags after app mount (syncMetadata utility).",
-      "reason": "REQ-2 asks to verify production HTML metadata matches the current build; it does not request adding runtime code to rewrite metadata tags in the browser.",
+      "description": "Automatic redirect behavior if the current URL contains \"mahek\" (redirectIfMahekUrl + helper functions).",
+      "reason": "BuildRequest only asked to align canonical/OG URL configuration and runtime logging to the published domain; it did not request user navigation redirects based on URL substring checks.",
       "evidence": [
-        "frontend/src/utils/appMetadata.ts",
+        "frontend/src/config/publicSiteUrl.ts",
         "frontend/src/App.tsx"
       ]
     },
     {
-      "description": "Automatic redirect behavior for URLs containing \"mahek\" (redirectIfMahekUrl).",
-      "reason": "BuildRequest does not ask for URL-based redirects or behavior changes beyond restoring live deployment and verifying metadata; this introduces new navigation behavior.",
+      "description": "Runtime metadata synchronization utility (syncMetadata) that updates title/canonical/OG tags after mount.",
+      "reason": "BuildRequest required updating PUBLIC_SITE_URL, index.html canonical/og:url, and a production console log; it did not request runtime DOM mutation of metadata tags.",
       "evidence": [
         "frontend/src/App.tsx",
-        "frontend-file-summaries.txt (mentions frontend/src/config/publicSiteUrl.ts redirect helper)"
+        "frontend-file-summaries.txt (frontend/src/utils/appMetadata.ts)"
       ]
     },
     {
-      "description": "Added cache-control meta tags (no-cache/no-store) to the HTML entrypoint.",
-      "reason": "BuildRequest does not request changing caching headers/tags; it only requests restoring live deployment and verifying metadata values.",
+      "description": "Cache-control meta tags added to index.html to prevent stale HTML serving.",
+      "reason": "Not explicitly requested in any requirement; could be an attempted mitigation for REQ-1 but is additional behavior beyond the stated AC.",
       "evidence": [
         "frontend/index.html"
       ]
     },
     {
-      "description": "Production console logging for \"Production Check\" on app mount.",
-      "reason": "BuildRequest does not request new logging/instrumentation; acceptance criteria mention verifying no console errors, not adding logs.",
+      "description": "Centralized branding configuration for user-facing text (branding.ts) and associated refactor of ValentinePrompt to use it.",
+      "reason": "Not requested; requirements did not ask for text centralization or refactoring ValentinePrompt behavior/text beyond ensuring the UI loads and adding a status indicator.",
       "evidence": [
-        "frontend/src/App.tsx"
+        "frontend-file-summaries.txt (frontend/src/config/branding.ts, frontend/src/components/ValentinePrompt.tsx)"
+      ]
+    },
+    {
+      "description": "Tailwind/theme styling changes (romantic colors, gradients, border radius adjustments).",
+      "reason": "Not requested; BuildRequest focuses on publish issue, URL metadata alignment, and adding a non-intrusive load indicator.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/index.css, frontend/tailwind.config.js)"
+      ]
+    },
+    {
+      "description": "Added/updated deployment checklist documentation (DEPLOYMENT_CHECKLIST.md) with versioning and troubleshooting steps.",
+      "reason": "Documentation updates were not requested as part of the requirements.",
+      "evidence": [
+        "frontend/DEPLOYMENT_CHECKLIST.md"
       ]
     }
   ],
@@ -53,7 +67,8 @@
     "frontend/DEPLOYMENT_CHECKLIST.md",
     "frontend/index.html",
     "frontend/src/App.tsx",
-    "frontend/src/utils/appMetadata.ts",
+    "frontend/src/components/AppLoadedIndicator.tsx",
+    "frontend/src/config/publicSiteUrl.ts",
     "project_state.json"
   ]
 }

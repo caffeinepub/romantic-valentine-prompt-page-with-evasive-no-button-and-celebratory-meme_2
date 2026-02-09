@@ -4,29 +4,37 @@
   "summary": "New project",
   "architectural_notes": [],
   "known_issues": [
-    "Live site shows Caffeine placeholder ('Publish or restore your Caffeine app...') indicating the production/live publish did not complete or the live canister is empty; requires restoring/re-publishing live build."
+    "User reports the same issue persists after deploying Version 7 (likely the preview/production link not opening or loading correctly)."
   ],
   "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-restore-re-publish-the-current-working-draft-build-version-6-to-the-production-live-canister-so-that-the-live-url-serves-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
-      "title": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+      "id": "feature-resolve-the-production-live-publish-issue-so-the-live-url-loads-the-valentine-app-instead-of-the-caffeine-placeholder-screen-publish-or-restore-your-caffeine-app-to-make-it-appear-here",
+      "title": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-after-the-live-publish-completes-verify-the-production-html-metadata-matches-the-current-frontend-build-title-description-canonical-og-url-and-is-not-reverting-to-older-cached-content",
-      "title": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
+      "id": "feature-align-the-app-s-canonical-og-url-configuration-and-any-runtime-url-logging-with-the-actual-published-domain-shown-in-the-screenshot-https-npt-for-sunidhi-caffeine-xyz-so-metadata-and-production-checks-do-not-point-to-a-different-site-url",
+      "title": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
       "reqIds": [
         "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-in-app-user-visible-app-loaded-status-indicator-non-intrusive-so-the-user-can-distinguish-between-a-failed-publish-placeholder-page-and-a-successfully-mounted-app-without-opening-devtools",
+      "title": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+      "reqIds": [
+        "REQ-3"
       ],
       "version": 1
     }
   ],
   "new_feature_requests": [],
-  "projectName": "Restore production/live deployment so the live URL loads the app (not the Caffeine placeholder)",
+  "projectName": "Fix live URL showing Caffeine placeholder and align canonical URL with the published domain",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

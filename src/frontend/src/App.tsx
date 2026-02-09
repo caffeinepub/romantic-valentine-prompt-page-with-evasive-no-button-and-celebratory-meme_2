@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import ValentinePrompt from './components/ValentinePrompt';
-import { redirectIfMahekUrl } from './config/publicSiteUrl';
+import { redirectIfMahekUrl, PUBLIC_SITE_URL } from './config/publicSiteUrl';
 import { syncMetadata } from './utils/appMetadata';
+import AppLoadedIndicator from './components/AppLoadedIndicator';
 
 function App() {
   // Guard against any URL containing "mahek" - redirect to correct URL
@@ -17,13 +18,14 @@ function App() {
     if (import.meta.env.PROD) {
       console.log('[Production Check] App mounted successfully');
       console.log('[Production Check] Current URL:', window.location.href);
-      console.log('[Production Check] Expected canonical:', 'https://romantic-valentine-prompt-for-sunidhi.caffeine.xyz');
+      console.log('[Production Check] Expected canonical:', PUBLIC_SITE_URL);
     }
   }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <ValentinePrompt />
+      <AppLoadedIndicator />
     </div>
   );
 }

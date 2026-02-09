@@ -5,7 +5,7 @@
  */
 
 // The canonical public URL for this application
-export const PUBLIC_SITE_URL = 'https://romantic-valentine-prompt-for-sunidhi.caffeine.xyz';
+export const PUBLIC_SITE_URL = 'https://npt-for-sunidhi.caffeine.xyz';
 
 /**
  * Checks if the current URL contains "mahek" (case-insensitive)

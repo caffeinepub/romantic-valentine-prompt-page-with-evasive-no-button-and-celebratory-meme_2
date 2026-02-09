@@ -1,51 +1,74 @@
 {
   "kind": "build_request",
-  "title": "Restore production/live deployment so the live URL loads the app (not the Caffeine placeholder)",
+  "title": "Fix live URL showing Caffeine placeholder and align canonical URL with the published domain",
   "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Restore/re-publish the current working draft build (Version 6) to the production/live canister so that the live URL serves the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
+      "text": "Resolve the production/live publish issue so the live URL loads the Valentine app instead of the Caffeine placeholder screen (“Publish or restore your Caffeine app to make it appear here.”).",
       "target": "unknown",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Restore the live app"
+          "Again same problem?"
         ]
       },
       "acceptanceCriteria": [
-        "Opening the live/production URL loads the React app UI (Valentine prompt) rather than the Caffeine placeholder page.",
-        "A hard refresh (Ctrl/Cmd+Shift+R) on the live URL still loads the app UI.",
-        "The live site returns a successful HTTP response for the main document and loads JS/CSS assets without errors in the browser console."
+        "Opening the live URL in an incognito/private window renders the Valentine UI (card with “Will you be my Valentine, Sunidhi? 💕”) and not the Caffeine placeholder.",
+        "Hard refresh (Ctrl/Cmd+Shift+R) still shows the Valentine UI.",
+        "The main document returns HTTP 200 and the JS/CSS bundles load without 404s (verified in DevTools Network tab)."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "After the live publish completes, verify the production HTML metadata matches the current frontend build (title/description/canonical/og:url) and is not reverting to older cached content.",
+      "text": "Align the app’s canonical/OG URL configuration and any runtime URL logging with the actual published domain shown in the screenshot (https://npt-for-sunidhi.caffeine.xyz) so metadata and production checks do not point to a different site URL.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Restore the live app"
+          "Again same problem?"
         ]
       },
       "acceptanceCriteria": [
-        "The live site HTML <title> contains “Will you be my Valentine, Sunidhi?” and does not contain “Mahek”.",
-        "The live site canonical and og:url values match the intended production URL and are not empty or pointing to a draft/old URL."
+        "frontend/src/config/publicSiteUrl.ts PUBLIC_SITE_URL is updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
+        "frontend/index.html <link rel=\"canonical\"> and <meta property=\"og:url\"> are updated to exactly https://npt-for-sunidhi.caffeine.xyz.",
+        "frontend/src/App.tsx production console log for “Expected canonical” matches https://npt-for-sunidhi.caffeine.xyz.",
+        "After deployment, View Page Source on the live site shows canonical/og:url set to https://npt-for-sunidhi.caffeine.xyz."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add an in-app, user-visible “App loaded” status indicator (non-intrusive) so the user can distinguish between a failed publish/placeholder page and a successfully mounted app without opening DevTools.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-6"
+        ],
+        "quotes": [
+          "If you want, we can add a simple status indicator to confirm when the app is loading.",
+          "Again same problem?"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the React app mounts, a small text indicator appears (e.g., in a corner or footer) saying “App loaded” (English) and includes a build timestamp or version string.",
+        "The indicator is visible on mobile screens and does not block interaction with the Valentine prompt buttons.",
+        "The indicator is present only when the actual app is served (i.e., it naturally will not appear on the Caffeine placeholder page)."
       ]
     }
   ],
   "constraints": [
-    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything under frontend/src/components/ui (immutable paths).",
-    "Keep the backend as a single Motoko actor (no additional backend services)."
+    "Do not edit files under frontend/src/components/ui (read-only components must be composed, not modified).",
+    "Do not edit immutable hook files: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx."
   ],
   "nonGoals": [
-    "No new app features or UI redesign beyond what is required to restore the live deployment.",
-    "No changes to authentication behavior or Internet Identity integration."
+    "Adding new authentication providers beyond Internet Identity.",
+    "Adding a database or external backend services.",
+    "Changing the Valentine prompt interaction logic (evasive “No” button, success screen) unless required to implement the status indicator."
   ],
   "imageRequirements": {
     "required": [],
